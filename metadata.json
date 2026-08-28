@@ -1,0 +1,6 @@
+{
+  "name": "Netronomic Web",
+  "description": "A professional digital agency providing web design, logo design, SEO, and more.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

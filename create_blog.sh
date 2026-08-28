@@ -1,0 +1,77 @@
+mkdir -p src/pages
+
+# Create Home.tsx
+cat << 'HOMEEOF' > src/pages/Home.tsx
+import Hero from '../components/Hero';
+import Services from '../components/Services';
+import About from '../components/About';
+import WhyChooseUs from '../components/WhyChooseUs';
+import Process from '../components/Process';
+import Portfolio from '../components/Portfolio';
+import Pricing from '../components/Pricing';
+import Testimonials from '../components/Testimonials';
+import FAQ from '../components/FAQ';
+import Contact from '../components/Contact';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+export default function Home() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const id = location.hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
+  return (
+    <main>
+      <Hero />
+      <Services />
+      <About />
+      <WhyChooseUs />
+      <Process />
+      <Portfolio />
+      <Pricing />
+      <Testimonials />
+      <FAQ />
+      <Contact />
+    </main>
+  );
+}
+HOMEEOF
+
+# Update App.tsx
+cat << 'APPEOF' > src/App.tsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import BlogList from './pages/BlogList';
+import BlogPost from './pages/BlogPost';
+import AdminBlog from './pages/AdminBlog';
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <div className="min-h-screen bg-slate-50 font-sans selection:bg-sky-200 selection:text-sky-900 w-full overflow-x-hidden">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/admin/blog" element={<AdminBlog />} />
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
+  );
+}
+APPEOF
+
