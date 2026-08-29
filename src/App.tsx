@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// Version: 1.0.1
 import { AnimatePresence } from 'motion/react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -244,8 +245,7 @@ export default function App() {
           {/* 3. About Us */}
           {isSectionVisible('sec-about') && <AboutUs />}
 
-          {/* 4. Why Choose Us */}
-          {isSectionVisible('sec-why') && <WhyChooseUs />}
+          {/* 4. Why Choose Us (Hidden by user request) */}
 
           {/* 5. Our Process */}
           {isSectionVisible('sec-process') && <Process />}
@@ -267,8 +267,7 @@ export default function App() {
           {/* 8. Testimonials */}
           {isSectionVisible('sec-testimonials') && <Testimonials />}
 
-          {/* 9. FAQ */}
-          {isSectionVisible('sec-faq') && <FAQ />}
+          {/* 9. FAQ (Hidden by user request) */}
 
           {/* 10. Contact Us */}
           {isSectionVisible('sec-contact') && (

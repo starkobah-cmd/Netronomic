@@ -1,6 +1,20 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      // Prevent "Cannot set property fetch of #<Window> which has only a getter" error
+      // by intercepting attempts to overwrite window.fetch.
+      try {
+        const originalFetch = window.fetch;
+        Object.defineProperty(window, 'fetch', {
+          get: function() { return originalFetch; },
+          set: function(val) { 
+            console.warn('Silently ignored attempt to overwrite window.fetch'); 
+          },
+          configurable: true
+        });
+      } catch (e) {}
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Google AI Studio App</title>

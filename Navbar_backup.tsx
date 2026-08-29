@@ -34,10 +34,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
   const navLinks = [
     { label: 'Services', href: '#services' },
     { label: 'About Us', href: '#about' },
+    { label: 'Why Us', href: '#why-us' },
     { label: 'Process', href: '#process' },
     { label: 'Portfolio', href: '#portfolio' },
     { label: 'Pricing', href: '#pricing' },
     { label: 'Testimonials', href: '#testimonials' },
+    { label: 'FAQ', href: '#faq' },
     { label: 'Contact', href: '#contact' },
   ];
 

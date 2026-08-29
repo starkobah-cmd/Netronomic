@@ -1,0 +1,25 @@
+0;const h=c(m);fetch(m.href,h)}})()
+C(N,g))},pn.prefetchDNS=function(N)
+r("ReactDOM.prefetchDNS(): Expected
+r("ReactDOM.prefetchDNS(): Expected
+ng ReactDOM.prefetchDNS() with just
+r("ReactDOM.prefetchDNS(): Expected
+ng ReactDOM.prefetchDNS() with just
+d 0,L=typeof g.fetchPriority=="stri
+ng"?g.fetchPriority:void 0
+:C,integrity:$,fetchPriority:L}):j=
+:C,integrity:$,fetchPriority:L,nonc
+?g.type:void 0,fetchPriority:typeof
+ g.fetchPriority=="stri
+ng"?g.fetchPriority:void 0
+f you meant to fetch data or run si
+async function fetchData() {
+  fetchData();
+ore about data fetching with Hooks:
+ink/hooks-data-fetching`:" You retu
+"enterKeyHint",fetchpriority:"fetch
+* Move data fetching code or sid
+* Move data fetching code or sid
+* Move data fetching code or sid
+* Move data fetching code or sid
+(e),wv("dns-prefetch",e,null)},C:fu

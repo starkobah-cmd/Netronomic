@@ -3,6 +3,8 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
+console.log('App version: 1.0.1 (Cache Busted)');
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
