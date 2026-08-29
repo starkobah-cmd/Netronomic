@@ -1,66 +1,102 @@
+import React from 'react';
 import { motion } from 'motion/react';
-import { Star } from 'lucide-react';
+import { Star, Quote, TrendingUp, CheckCircle, Sparkles } from 'lucide-react';
+import { testimonialsData } from '../data/agencyData';
 
-const testimonials = [
-  {
-    name: 'Sarah Johnson',
-    role: 'Startup Founder',
-    text: 'Netronomic Web transformed our idea into a professional website. The process was smooth and the final result exceeded our expectations.',
-  },
-  {
-    name: 'Michael Chen',
-    role: 'Marketing Director',
-    text: 'Their design team created a stunning visual identity for our brand. Highly recommend their logo and branding services.',
-  },
-  {
-    name: 'Emma Williams',
-    role: 'E-commerce Owner',
-    text: 'The app development process was seamless. Our users love the new interface and performance has significantly improved.',
-  }
-];
-
-export default function Testimonials() {
+export const Testimonials: React.FC = () => {
   return (
-    <section id="testimonials" className="py-24 bg-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-sky-50 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform -translate-x-1/2 translate-y-1/2" />
-      
+    <section id="testimonials" className="py-20 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl font-bold text-slate-900 mb-4"
-          >
-            What Our Clients Say
-          </motion.h2>
+        
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-bold uppercase tracking-wider">
+            <span>8. Testimonials & Stories</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Client Reviews & <span className="text-sky-600">Real Success Stories</span>
+          </h2>
+          <p className="text-base sm:text-lg text-slate-600">
+            Hear directly from business leaders, brand founders, and marketing directors who trust Skyline Digital.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+        {/* Reviews Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonialsData.map((review, index) => (
             <motion.div
-              key={index}
+              key={review.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-sky-100/50 transition-all"
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="bg-sky-50/40 rounded-3xl p-8 border border-sky-100 flex flex-col justify-between hover:bg-white hover:shadow-xl hover:border-sky-300 transition-all group"
             >
-              <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                ))}
+              <div className="space-y-4">
+                {/* Header: Rating & Quote Icon */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                  <Quote className="w-8 h-8 text-sky-300 opacity-60 group-hover:text-sky-500 transition-colors" />
+                </div>
+
+                {/* Service Used Chip */}
+                <span className="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-200">
+                  {review.serviceUsed}
+                </span>
+
+                {/* Comment */}
+                <p className="text-sm text-slate-700 leading-relaxed italic">
+                  "{review.comment}"
+                </p>
               </div>
-              <p className="text-slate-600 mb-8 italic text-lg leading-relaxed">"{testimonial.text}"</p>
-              <div>
-                <h4 className="font-bold text-slate-900">{testimonial.name}</h4>
-                <span className="text-sm text-sky-600 font-medium">{testimonial.role}</span>
+
+              {/* Author Footer */}
+              <div className="pt-6 border-t border-sky-100 flex items-center gap-3 mt-6">
+                <img
+                  src={review.avatar}
+                  alt={review.name}
+                  referrerPolicy="no-referrer"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-sky-200 shadow-sm"
+                />
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">{review.name}</h4>
+                  <p className="text-xs text-slate-500">{review.role}, <strong className="text-sky-700">{review.company}</strong></p>
+                </div>
               </div>
+
             </motion.div>
           ))}
         </div>
+
+        {/* Success Stories Metric Banner */}
+        <div className="mt-16 bg-gradient-to-r from-sky-600 via-sky-500 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-2">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-sky-200" />
+                <span className="text-xs font-bold uppercase tracking-wider text-sky-100">Success Highlight</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold">Over 280+ Businesses Scaled</h3>
+              <p className="text-sm text-sky-50 leading-relaxed max-w-2xl">
+                From launching custom e-commerce stores to generating 2M+ organic reel views and securing top 3 Google rankings with profile backlinks, our success stories speak for themselves.
+              </p>
+            </div>
+            <div className="lg:col-span-4 flex justify-start lg:justify-end">
+              <a
+                href="#contact"
+                className="px-6 py-3 rounded-xl bg-white text-sky-700 font-bold text-sm shadow-md hover:bg-sky-50 transition-colors"
+              >
+                Become Our Next Success Story
+              </a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
-}
+};

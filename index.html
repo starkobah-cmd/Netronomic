@@ -2,26 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <script>
-      // Suppress extension-injected fetch assignment errors in sandboxed iframes
-      window.addEventListener('error', function(e) {
-        if (e.message && e.message.includes('fetch')) {
-          e.stopImmediatePropagation();
-        }
-      }, true);
-      window.onerror = function(message) {
-        if (typeof message === 'string' && message.includes('fetch')) {
-          return true;
-        }
-      };
-    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Netronomic Web</title>
-    <meta name="description" content="A professional digital agency." />
-    <meta property="og:title" content="Netronomic Web" />
-    <meta property="og:description" content="A professional digital agency." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <title>My Google AI Studio App</title>
   </head>
   <body>
     <div id="root"></div>

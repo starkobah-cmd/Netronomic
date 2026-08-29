@@ -1,81 +1,139 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Tag, Sparkles, Filter, Eye } from 'lucide-react';
+import { portfolioData } from '../data/agencyData';
+import { PortfolioItem, PortfolioCategory } from '../types';
 
-const categories = ['All', 'Websites', 'Logos', 'Posters', 'Apps', 'Video Editing'];
+interface PortfolioProps {
+  onSelectPortfolio: (item: PortfolioItem) => void;
+}
 
-const projects = [
-  { id: 1, title: 'E-commerce Platform', category: 'Websites', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600', desc: 'Modern shopping experience' },
-  { id: 2, title: 'Brand Identity', category: 'Logos', image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=600', desc: 'Minimalist logo design' },
-  { id: 3, title: 'Fitness App', category: 'Apps', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600', desc: 'Workout tracking application' },
-  { id: 4, title: 'Event Poster', category: 'Posters', image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=600', desc: 'Music festival promotion' },
-  { id: 5, title: 'Corporate Reel', category: 'Video Editing', image: 'https://images.unsplash.com/photo-1535016120720-40c746ffa9c5?auto=format&fit=crop&q=80&w=600', desc: 'Company introduction video' },
-  { id: 6, title: 'Real Estate Portal', category: 'Websites', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=600', desc: 'Property listing platform' }
-];
+export const Portfolio: React.FC<PortfolioProps> = ({ onSelectPortfolio }) => {
+  const [activeCategory, setActiveCategory] = useState<PortfolioCategory>('all');
 
-export default function Portfolio() {
-  const [activeCategory, setActiveCategory] = useState('All');
+  const categories: { id: PortfolioCategory; label: string }[] = [
+    { id: 'all', label: 'All Projects' },
+    { id: 'websites', label: 'Websites' },
+    { id: 'logos', label: 'Logos' },
+    { id: 'posters', label: 'Posters' },
+    { id: 'apps', label: 'Apps' },
+    { id: 'video', label: 'Video Editing' },
+  ];
 
-  const filteredProjects = activeCategory === 'All' 
-    ? projects 
-    : projects.filter(p => p.category === activeCategory);
+  const filteredItems = activeCategory === 'all'
+    ? portfolioData
+    : portfolioData.filter((item) => item.category === activeCategory);
 
   return (
-    <section id="portfolio" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-4xl font-bold text-slate-900 mb-4">Our Recent Work</h2>
+    <section id="portfolio" className="py-20 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-bold uppercase tracking-wider">
+            <span>6. Portfolio</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Our Featured Work Across <span className="text-sky-600">5 Creative Domains</span>
+          </h2>
+          <p className="text-base sm:text-lg text-slate-600">
+            Explore live samples of custom Websites, Logos, Posters, Mobile Apps, and Information Reel Editing crafted for global brands.
+          </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map(category => (
+        {/* Portfolio Tabs (5 categories + All) */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+          {categories.map((cat) => (
             <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-6 py-2 rounded-full font-medium transition-colors ${
-                activeCategory === category 
-                  ? 'bg-sky-500 text-white' 
-                  : 'bg-slate-100 text-slate-600 hover:bg-sky-50 hover:text-sky-500'
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeCategory === cat.id
+                  ? 'bg-sky-500 text-white shadow-md shadow-sky-500/25'
+                  : 'bg-slate-100 text-slate-700 hover:bg-sky-50 hover:text-sky-700'
               }`}
             >
-              {category}
+              {cat.label}
             </button>
           ))}
         </div>
 
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Portfolio Grid */}
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence>
-            {filteredProjects.map(project => (
+            {filteredItems.map((item) => (
               <motion.div
-                key={project.id}
+                key={item.id}
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="group bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl hover:shadow-sky-100 transition-all"
+                className="bg-white rounded-2xl border border-sky-100 overflow-hidden shadow-sm hover:shadow-xl hover:border-sky-300 transition-all group flex flex-col justify-between"
               >
-                <div className="relative aspect-video overflow-hidden">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-sky-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
-                     <button className="bg-white text-sky-600 p-3 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
-                       <ExternalLink size={20} />
-                     </button>
+                <div>
+                  {/* Image Container with hover overlay */}
+                  <div className="relative h-52 overflow-hidden bg-slate-100">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                      <button
+                        onClick={() => onSelectPortfolio(item)}
+                        className="px-4 py-2 rounded-xl bg-white text-slate-900 text-xs font-bold shadow-lg hover:bg-sky-50 flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <Eye className="w-4 h-4 text-sky-600" />
+                        <span>Preview Details</span>
+                      </button>
+                    </div>
+
+                    <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs text-slate-900 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg border border-slate-200">
+                      {item.categoryLabel}
+                    </span>
+                  </div>
+
+                  {/* Body Content */}
+                  <div className="p-6 space-y-3">
+                    <div className="flex items-center justify-between text-xs text-sky-600 font-semibold">
+                      <span>Client: {item.client}</span>
+                      {item.stats && (
+                        <span className="bg-sky-50 px-2 py-0.5 rounded text-sky-700 font-bold">
+                          {item.stats}
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
+                      {item.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
-                <div className="p-6">
-                  <span className="text-sm font-semibold text-sky-500 mb-2 block">{project.category}</span>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">{project.title}</h3>
-                  <p className="text-slate-600 mb-4">{project.desc}</p>
-                  <button className="text-sky-600 font-medium inline-flex items-center hover:text-sky-700">
-                    View Project <ExternalLink size={16} className="ml-1" />
-                  </button>
+
+                {/* Footer Tags */}
+                <div className="px-6 pb-6 pt-2 border-t border-slate-50 flex flex-wrap gap-1.5">
+                  {item.tags.map((t, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-600"
+                    >
+                      #{t}
+                    </span>
+                  ))}
                 </div>
+
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
+
       </div>
     </section>
   );
-}
+};

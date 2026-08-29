@@ -1,161 +1,221 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Sparkles, Phone, MessageSquare, Menu, X, ArrowUpRight, BookOpen } from 'lucide-react';
+import { BlogViewMode } from '../types';
+import { Logo } from './Logo';
+import { SiteConfig } from '../data/siteConfig';
 
-const WhatsAppIcon = () => (
-  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-  </svg>
-);
+interface NavbarProps {
+  onOpenQuote: (serviceTitle?: string) => void;
+  currentView?: BlogViewMode;
+  onNavigate?: (view: BlogViewMode) => void;
+  siteConfig?: SiteConfig;
+}
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main', onNavigate, siteConfig }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const agencyData = siteConfig?.agency || {
+    whatsappNumber: '919876543210'
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const links = ['Services', 'About Us', 'Why Us', 'Process', 'Portfolio', 'Pricing', 'Testimonials', 'FAQ', 'Blog', 'Contact'];
+  const navLinks = [
+    { label: 'Services', href: '#services' },
+    { label: 'About Us', href: '#about' },
+    { label: 'Why Us', href: '#why-us' },
+    { label: 'Process', href: '#process' },
+    { label: 'Portfolio', href: '#portfolio' },
+    { label: 'Pricing', href: '#pricing' },
+    { label: 'Testimonials', href: '#testimonials' },
+    { label: 'FAQ', href: '#faq' },
+    { label: 'Contact', href: '#contact' },
+  ];
 
-  const handleNavigation = (link: string) => {
-    setIsOpen(false);
-    
-    if (link.toLowerCase() === 'blog') {
-      navigate('/blog');
-      return;
+  const handleHomeClick = (e: React.MouseEvent) => {
+    if (currentView !== 'main' && onNavigate) {
+      e.preventDefault();
+      onNavigate('main');
     }
+  };
 
-    // Map 'About Us' to 'about', 'Why Us' to 'why-us', etc.
-    let id = link.toLowerCase().replace(' us', '').replace(' ', '-');
-    if (link === 'About Us') id = 'about';
-    if (link === 'Why Us') id = 'why-choose-us'; // Ensure this maps correctly if needed, or just 'why-us'
+  const handleBlogClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigate) {
+      onNavigate('blog-list');
+    }
+  };
 
-    if (location.pathname !== '/') {
-      navigate('/#' + id);
-    } else {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        // Fallback for tricky IDs like why-choose-us vs why-us
-        const fallbackElement = document.getElementById(id.replace('-us', '-choose-us'));
-        if (fallbackElement) {
-           fallbackElement.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }
+  const handleAdminClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigate) {
+      onNavigate('site-admin');
     }
   };
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 xl:px-8">
-        <div className="flex justify-between items-center">
-          
-          {/* Logo Section */}
-          <div className="flex-shrink-0 cursor-pointer group" onClick={() => handleNavigation('home')}>
-            <div className="flex flex-col">
-              <span className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter leading-none group-hover:text-sky-500 transition-colors">
-                NETRONOMIC<span className="text-sky-500">.</span>
-              </span>
-              <span className="text-[0.65rem] md:text-xs font-bold text-slate-400 tracking-[0.25em] uppercase mt-1">
-                Digital Agency
-              </span>
-            </div>
-          </div>
-          
-          {/* Desktop Links */}
-          <div className="hidden xl:flex items-center space-x-6">
-            {links.map((link) => (
-              <button
-                key={link}
-                onClick={() => handleNavigation(link)}
-                className={`text-[13px] font-bold uppercase tracking-wider transition-colors ${location.pathname === '/blog' && link === 'Blog' ? 'text-sky-500' : 'text-slate-500 hover:text-sky-500'}`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-white/95 backdrop-blur-xl shadow-lg shadow-sky-950/5 border-b border-sky-100 py-2 sm:py-2.5'
+          : 'bg-white/85 backdrop-blur-md py-3 sm:py-3.5 border-b border-sky-100/70'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-4">
+          {/* Logo Brand - Perfectly Aligned */}
+          <a
+            href="#"
+            onClick={handleHomeClick}
+            className="flex items-center shrink-0 focus:outline-none rounded-xl transition-opacity hover:opacity-95"
+            aria-label="Homepage"
+          >
+            <Logo variant="light" size="md" showTagline={true} config={siteConfig?.logo} />
+          </a>
+
+          {/* Desktop Nav Links - Centered Floating Pill */}
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5 bg-slate-50/90 p-1.5 rounded-2xl border border-sky-100/80 shadow-2xs">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={currentView === 'main' ? link.href : `#${link.href}`}
+                onClick={(e) => {
+                  if (currentView !== 'main' && onNavigate) {
+                    onNavigate('main');
+                    setTimeout(() => {
+                      const el = document.querySelector(link.href);
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
+                }}
+                className="text-[13px] font-semibold text-slate-700 hover:text-sky-600 px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all duration-200"
               >
-                {link}
-              </button>
+                {link.label}
+              </a>
             ))}
-          </div>
 
-          {/* Action Buttons */}
-          <div className="hidden xl:flex items-center space-x-4">
-            <a 
-              href="https://wa.me/1234567890" 
-              target="_blank" 
-              rel="noreferrer"
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-50 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all duration-300 shadow-sm"
-              title="WhatsApp Us"
+            {/* Dedicated Blog Link */}
+            <button
+              onClick={handleBlogClick}
+              className={`text-[13px] font-bold flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                currentView === 'blog-list' || currentView === 'single-blog'
+                  ? 'bg-sky-500 text-white shadow-md shadow-sky-500/25'
+                  : 'text-sky-700 bg-sky-100/80 hover:bg-sky-500 hover:text-white border border-sky-200/80'
+              }`}
             >
-              <WhatsAppIcon />
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Blog</span>
+            </button>
+          </nav>
+
+          {/* Action CTAs */}
+          <div className="hidden sm:flex items-center gap-2.5 shrink-0">
+            <a
+              href={`https://wa.me/${agencyData.whatsappNumber}?text=Hello,%20I%20would%20like%20to%20discuss%20a%20project.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100 hover:border-emerald-300 transition-all shadow-2xs group"
+              title="Chat on WhatsApp"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping group-hover:animate-none" />
+              <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+              <span>WhatsApp</span>
             </a>
-            <button 
-              onClick={() => handleNavigation('contact')}
-              className="px-6 py-2.5 rounded-full bg-slate-900 text-white text-sm font-bold tracking-wide hover:bg-sky-500 transition-colors shadow-lg hover:shadow-sky-500/30"
+
+            <button
+              onClick={() => onOpenQuote()}
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 via-sky-600 to-cyan-600 text-white shadow-md shadow-sky-500/20 hover:shadow-lg hover:shadow-sky-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
             >
-              Get Started
+              <Sparkles className="w-3.5 h-3.5 text-sky-200 animate-pulse" />
+              <span>Get Started</span>
+              <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="xl:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-900 p-2 hover:bg-slate-100 rounded-lg transition-colors">
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+          {/* Mobile menu toggle */}
+          <div className="flex lg:hidden items-center gap-2 shrink-0">
+            <button
+              onClick={() => onOpenQuote()}
+              className="sm:hidden inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-xl bg-sky-500 text-white shadow-xs"
+            >
+              Quote
+            </button>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-xl text-slate-700 hover:bg-sky-50 focus:outline-none"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6 text-sky-600" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
-
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="xl:hidden absolute top-full left-0 w-full bg-white shadow-2xl border-t border-slate-100 max-h-[85vh] overflow-y-auto"
-          >
-            <div className="px-6 pt-4 pb-8 space-y-1">
-              {links.map((link) => (
-                <button
-                  key={link}
-                  onClick={() => handleNavigation(link)}
-                  className="block w-full text-left px-4 py-3.5 text-sm font-bold uppercase tracking-wide text-slate-700 hover:text-sky-500 hover:bg-sky-50 rounded-xl transition-colors"
-                >
-                  {link}
-                </button>
-              ))}
-              
-              <div className="pt-6 mt-4 border-t border-slate-100 flex flex-col space-y-3">
-                <a 
-                  href="https://wa.me/1234567890"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center w-full py-3.5 rounded-xl bg-emerald-50 text-emerald-600 font-bold uppercase tracking-wide hover:bg-emerald-100 transition-colors"
-                >
-                  <span className="mr-2"><WhatsAppIcon /></span> WhatsApp Us
-                </a>
-                <button 
-                  onClick={() => handleNavigation('contact')}
-                  className="w-full py-3.5 rounded-xl bg-slate-900 text-white font-bold uppercase tracking-wide hover:bg-sky-500 transition-colors shadow-md"
-                >
-                  Get Started
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-white border-b border-sky-100 shadow-xl px-4 pt-3 pb-6 mt-2 space-y-3">
+          <div className="grid grid-cols-2 gap-2 pb-3 border-b border-slate-100">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={currentView === 'main' ? link.href : `#${link.href}`}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (currentView !== 'main' && onNavigate) {
+                    onNavigate('main');
+                  }
+                }}
+                className="text-sm font-medium text-slate-700 hover:text-sky-600 p-2 rounded-md hover:bg-sky-50 transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+            <button
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                handleBlogClick(e);
+              }}
+              className="text-sm font-bold text-sky-600 bg-sky-50 p-2 rounded-md flex items-center gap-2 col-span-2"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Blog & Insights</span>
+            </button>
+          </div>
+          <div className="flex flex-col gap-2 pt-2">
+            <a
+              href={`https://wa.me/${agencyData.whatsappNumber}?text=Hi%20Netronomic%20Web`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-2 text-sm font-semibold py-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200"
+            >
+              <MessageSquare className="w-4 h-4 text-emerald-600" />
+              <span>Chat on WhatsApp</span>
+            </a>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenQuote();
+              }}
+              className="w-full text-center text-sm font-semibold py-2.5 rounded-xl bg-sky-500 text-white shadow-md"
+            >
+              Get Started / Contact Us
+            </button>
+          </div>
+        </div>
+      )}
+    </header>
   );
-}
+};
+
