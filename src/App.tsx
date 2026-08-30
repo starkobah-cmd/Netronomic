@@ -35,11 +35,58 @@ import { getStoredBlogPosts, saveBlogPostsToStorage } from './data/blogData';
 import { getStoredSiteConfig, saveSiteConfigToStorage, DEFAULT_SITE_CONFIG, SiteConfig } from './data/siteConfig';
 import { isAuthenticatedAdmin } from './utils/auth';
 
+import { doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { db } from './lib/firebase';
+
 export default function App() {
 
-  const handleSaveSiteConfig = (newConfig: SiteConfig) => {
+  useEffect(() => {
+    // Sync Site Config
+    const configRef = doc(db, 'settings', 'main');
+    const unsubConfig = onSnapshot(configRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setSiteConfig(data as any);
+        saveSiteConfigToStorage(data as any);
+      } else {
+        setDoc(configRef, getStoredSiteConfig());
+      }
+    });
+
+    // Sync Blog Posts
+    const postsRef = doc(db, 'settings', 'posts');
+    const unsubPosts = onSnapshot(postsRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data().posts || [];
+        setPosts(data as any);
+        saveBlogPostsToStorage(data as any);
+      } else {
+        setDoc(postsRef, { posts: getStoredBlogPosts() });
+      }
+    });
+
+    return () => {
+      unsubConfig();
+      unsubPosts();
+    };
+  }, []);
+
+  const handleSaveSiteConfig = async (newConfig: SiteConfig) => {
     setSiteConfig(newConfig);
     saveSiteConfigToStorage(newConfig);
+    try {
+      await setDoc(doc(db, 'settings', 'main'), newConfig);
+    } catch (err) {
+      console.error('Error saving config to Firebase', err);
+    }
+  };
+
+  const syncPostsToFirebase = async (newPosts: any[]) => {
+    try {
+      await setDoc(doc(db, 'settings', 'posts'), { posts: newPosts });
+    } catch (err) {
+      console.error('Error saving posts to Firebase', err);
+    }
   };
 
 
@@ -105,9 +152,14 @@ export default function App() {
   };
 
 
-  const handleResetSiteConfig = () => {
+  const handleResetSiteConfig = async () => {
     setSiteConfig(DEFAULT_SITE_CONFIG);
     saveSiteConfigToStorage(DEFAULT_SITE_CONFIG);
+    try {
+      await setDoc(doc(db, 'settings', 'main'), DEFAULT_SITE_CONFIG);
+    } catch (err) {
+      console.error('Error resetting config to Firebase', err);
+    }
   };
 
   // Sync state changes with localStorage
@@ -122,6 +174,7 @@ export default function App() {
     }
     setPosts(newPosts);
     saveBlogPostsToStorage(newPosts);
+    syncPostsToFirebase(newPosts);
   };
 
   const handleDeletePost = (postId: string) => {
