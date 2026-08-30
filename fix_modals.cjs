@@ -1,13 +1,19 @@
 const fs = require('fs');
+let appContent = fs.readFileSync('src/App.tsx', 'utf8');
 
-const p = 'src/components/PortfolioModal.tsx';
-let pc = fs.readFileSync(p, 'utf8');
-pc = pc.replace(/href=\{\`https:\/\/wa\.me\/[^`]+\`\}/g, 'href="https://wa.me/923020487103"');
-fs.writeFileSync(p, pc, 'utf8');
+appContent = appContent.replace(
+  /<PortfolioModal\n        item=\{selectedPortfolio\}/,
+  `<PortfolioModal\n        siteConfig={siteConfig}\n        item={selectedPortfolio}`
+);
 
-const s = 'src/components/ServiceModal.tsx';
-let sc = fs.readFileSync(s, 'utf8');
-sc = sc.replace(/href=\{\`https:\/\/wa\.me\/[^`]+\`\}/g, 'href="https://wa.me/923020487103"');
-fs.writeFileSync(s, sc, 'utf8');
+appContent = appContent.replace(
+  /<ServiceModal\n        item=\{selectedService\}/,
+  `<ServiceModal\n        siteConfig={siteConfig}\n        item={selectedService}`
+);
 
-console.log('Modals fixed.');
+appContent = appContent.replace(
+  /<QuickQuoteModal\n        isOpen=\{quoteModalOpen\}/,
+  `<QuickQuoteModal\n        siteConfig={siteConfig}\n        isOpen={quoteModalOpen}`
+);
+
+fs.writeFileSync('src/App.tsx', appContent);

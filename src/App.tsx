@@ -421,12 +421,14 @@ export default function App() {
       />
 
       <PortfolioModal
+        siteConfig={siteConfig}
         item={selectedPortfolio}
         onClose={() => setSelectedPortfolio(null)}
         onRequestSimilar={(cat) => handleScrollToContactWithService(`${cat} Project`)}
       />
 
       <QuickQuoteModal
+        siteConfig={siteConfig}
         isOpen={quoteModalOpen}
         initialService={preselectedServiceTitle}
         onClose={() => setQuoteModalOpen(false)}

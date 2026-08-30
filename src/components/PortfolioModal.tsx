@@ -3,14 +3,17 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ExternalLink, Tag, CheckCircle2, MessageSquare } from 'lucide-react';
 import { PortfolioItem } from '../types';
 import { agencyInfo } from '../data/agencyData';
+import { SiteConfig } from '../data/siteConfig';
 
 interface PortfolioModalProps {
+  siteConfig?: SiteConfig;
   item: PortfolioItem | null;
   onClose: () => void;
   onRequestSimilar: (categoryTitle: string) => void;
 }
 
-export const PortfolioModal: React.FC<PortfolioModalProps> = ({ item, onClose, onRequestSimilar }) => {
+export const PortfolioModal: React.FC<PortfolioModalProps> = ({ item, onClose, onRequestSimilar, siteConfig }) => {
+  const activeAgency = siteConfig?.agency || agencyInfo;
   if (!item) return null;
 
   return (
@@ -91,7 +94,7 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({ item, onClose, o
             </button>
 
             <a
-              href={`https://wa.me/${agencyInfo.whatsappNumber}?text=${encodeURIComponent('Hi, I saw your portfolio and would like to talk.')}`}
+              href={(activeAgency.whatsappNumber?.startsWith('http') ? activeAgency.whatsappNumber : `https://wa.me/${activeAgency.whatsappNumber}?text=${encodeURIComponent('Hi, I saw your portfolio and would like to talk.')}`)}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"

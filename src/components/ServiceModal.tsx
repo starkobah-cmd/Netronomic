@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Check, Clock, DollarSign, ArrowRight, MessageSquare } from 'lucide-react';
 import { ServiceItem } from '../types';
 import { agencyInfo } from '../data/agencyData';
+import { SiteConfig } from '../data/siteConfig';
 
 interface ServiceModalProps {
+  siteConfig?: SiteConfig;
   service: ServiceItem | null;
   onClose: () => void;
   onRequestQuote: (serviceTitle: string) => void;
@@ -81,7 +83,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose, on
             </button>
 
             <a
-              href={`https://wa.me/${agencyInfo.whatsappNumber}?text=${encodeURIComponent('Hi, I would like to inquire about this service.')}`}
+              href={(activeAgency.whatsappNumber?.startsWith('http') ? activeAgency.whatsappNumber : `https://wa.me/${activeAgency.whatsappNumber}?text=${encodeURIComponent('Hi, I would like to inquire about this service.')}`)}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"

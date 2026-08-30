@@ -4,6 +4,7 @@ import { X, Send, Sparkles, CheckCircle2 } from 'lucide-react';
 import { servicesData } from '../data/agencyData';
 
 interface QuickQuoteModalProps {
+  siteConfig?: SiteConfig;
   isOpen: boolean;
   initialService?: string;
   onClose: () => void;

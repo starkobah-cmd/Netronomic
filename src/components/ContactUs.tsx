@@ -85,7 +85,7 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
 
   const constructWhatsAppLink = () => {
     const text = `Hi! My name is ${formData.name || 'a client'}. I am interested in ${formData.service} with budget ${formData.budget}. Message: ${formData.message || 'I want to get started.'}`;
-    return `https://wa.me/${activeAgency.whatsappNumber}?text=${encodeURIComponent(text)}`;
+    return (activeAgency.whatsappNumber?.startsWith('http') ? activeAgency.whatsappNumber : `https://wa.me/${activeAgency.whatsappNumber}?text=${encodeURIComponent(text)}`);
   };
 
   return (

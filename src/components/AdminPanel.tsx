@@ -1703,6 +1703,37 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 helperText="Upload your company logo or select from Media Library. (Leave blank to use vector orb logo)"
               />
 
+
+              <div className="pt-6 border-t border-slate-800">
+                <h2 className="text-lg font-bold text-white mb-4">Social Media Links</h2>
+                <p className="text-xs text-slate-400 mb-4">Add your social media profile URLs. Leave empty to hide the button on the website.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {['facebook', 'instagram', 'twitter', 'linkedin', 'youtube', 'github'].map((network) => (
+                    <div key={network}>
+                      <label className="block text-xs font-bold text-slate-300 mb-1 capitalize">{network} URL</label>
+                      <input
+                        type="text"
+                        value={(localConfig.agency?.social as any)?.[network] || ''}
+                        onChange={(e) =>
+                          setLocalConfig({
+                            ...localConfig,
+                            agency: {
+                              ...localConfig.agency,
+                              social: {
+                                ...localConfig.agency.social,
+                                [network]: e.target.value
+                              }
+                            } as any
+                          })
+                        }
+                        placeholder={`https://${network}.com/yourprofile`}
+                        className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div className="pt-4 border-t border-slate-800 flex justify-end">
                 <button
                   onClick={() => triggerSaveNotification('Branding updated!')}
@@ -1746,7 +1777,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">WhatsApp Number</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">WhatsApp Number or Full Link</label>
                   <input
                     type="text"
                     value={localConfig.agency?.whatsappNumber || ''}
@@ -1872,7 +1903,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         </select>
 
                         <a
-                          href={`https://wa.me/${localConfig.agency?.whatsappNumber}`}
+                          href={(localConfig.agency?.whatsappNumber?.startsWith('http') ? localConfig.agency?.whatsappNumber : `https://wa.me/${localConfig.agency?.whatsappNumber}`)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold"
