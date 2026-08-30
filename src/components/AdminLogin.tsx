@@ -54,12 +54,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBackTo
     }
   };
 
-  const fillDefaultCredentials = () => {
-    setIdentifier('admin');
-    setPassword('Admin@123');
-    setErrorMsg('');
-  };
-
+  
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setResetError('');
@@ -334,26 +329,6 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBackTo
                 )}
               </button>
             </form>
-
-            {/* Default Admin Credentials Banner */}
-            <div className="p-3.5 rounded-xl bg-slate-950/90 border border-sky-500/30 flex items-center justify-between text-xs space-x-2">
-              <div className="space-y-0.5">
-                <div className="text-slate-300 text-[11px] font-bold flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
-                  Default First Admin Account:
-                </div>
-                <div className="text-sky-300 font-mono text-[11px]">
-                  User: <span className="font-bold text-white">admin</span> | Pass: <span className="font-bold text-white">Admin@123</span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={fillDefaultCredentials}
-                className="px-2.5 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-sky-300 text-[10px] font-bold transition-all cursor-pointer shrink-0 shadow-sm"
-              >
-                Auto Fill
-              </button>
-            </div>
 
             {/* Back to Public Site Link */}
             <div className="pt-2 text-center border-t border-slate-800">

@@ -1,6 +1,6 @@
 // Security and Authentication Utility for Netronomic CMS
 
-const ADMIN_USERS_KEY = 'netronomic_admin_users_v2';
+const ADMIN_USERS_KEY = 'netronomic_admin_users_v3';
 const ADMIN_SESSION_KEY = 'netronomic_admin_session_v1';
 const SESSION_EXPIRY_MS = 4 * 60 * 60 * 1000; // 4 Hours
 
@@ -39,7 +39,7 @@ export async function hashPassword(password: string): Promise<string> {
 // Username: admin | Email: admin@example.com | Password: Admin@123
 const DEFAULT_USERNAME = 'admin';
 const DEFAULT_EMAIL = 'admin@example.com';
-const DEFAULT_PASSWORD_PLAIN = 'Admin@123';
+const DEFAULT_PASSWORD_PLAIN = 'Admin@786';
 
 export async function getStoredAdminUsers(): Promise<AdminUser[]> {
   try {

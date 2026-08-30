@@ -689,7 +689,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 animate-bounce" />
             <span>
-              <strong>Security Alert:</strong> You are using default administrator credentials (<code className="bg-amber-950/60 px-1.5 py-0.5 rounded text-amber-300">admin / Admin@123</code>). Please change your password immediately.
+              <strong>Security Alert:</strong> You are using default administrator credentials (<code className="bg-amber-950/60 px-1.5 py-0.5 rounded text-amber-300">admin / Admin@786</code>). Please change your password immediately.
             </span>
           </div>
           <button

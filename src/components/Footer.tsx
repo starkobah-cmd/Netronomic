@@ -53,23 +53,23 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
               Full-service digital agency providing high-impact Website Design, Mobile Apps, Logo & Poster Design, Reel Video Editing, SEO, Profile & Social Backlinks.
             </p>
-            <div className="flex flex-col gap-3 pt-2">
+            <div className="flex flex-col gap-4 pt-2">
               <a
                 href={(activeAgency.whatsappNumber?.startsWith('http') ? activeAgency.whatsappNumber : `https://wa.me/${activeAgency.whatsappNumber}`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-500 text-white border border-emerald-600 shadow-sm text-xs font-semibold hover:bg-emerald-600 transition-colors w-fit flex-col items-start"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-500 text-white border border-emerald-600 shadow-sm text-xs font-semibold hover:bg-emerald-600 transition-colors flex-col items-start w-fit"
               >
                 <div className="flex items-center gap-2">
                   <MessageSquare className="w-4 h-4" />
-                  <span>Message {activeAgency.name} on WhatsApp</span>
+                  <span>Message Netronomic web on WhatsApp</span>
                 </div>
-                <span className="text-[10px] font-mono opacity-80">+{activeAgency.whatsappNumber}</span>
+                <span className="text-[10px] font-mono opacity-80">{activeAgency.whatsappNumber?.startsWith('http') ? 'Click to open WhatsApp link' : `+${activeAgency.whatsappNumber}`}</span>
               </a>
               
               {/* Social Links */}
               {activeAgency.social && (
-                <div className="flex items-center gap-2 pt-2">
+                <div className="flex items-center gap-2">
                   {renderSocialIcon('facebook', activeAgency.social.facebook)}
                   {renderSocialIcon('instagram', activeAgency.social.instagram)}
                   {renderSocialIcon('twitter', activeAgency.social.twitter)}
