@@ -32,12 +32,23 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({ item, onClose, o
 
           {/* Banner image */}
           <div className="relative h-64 -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6 overflow-hidden bg-slate-100">
-            <img
-              src={item.image}
-              alt={item.title}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
-            />
+            {item.videoUrl ? (
+              <video
+                src={item.videoUrl}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img
+                src={item.image}
+                alt={item.title}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex items-end p-6">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider bg-sky-500 text-white px-2.5 py-0.5 rounded-full mb-2 inline-block">
@@ -80,7 +91,7 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({ item, onClose, o
             </button>
 
             <a
-              href={`https://wa.me/${agencyInfo.whatsappNumber}?text=${encodeURIComponent(`Hi Skyline Digital, I saw your portfolio item "${item.title}" and would like to build a similar project.`)}`}
+              href="https://wa.me/923020487103"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"

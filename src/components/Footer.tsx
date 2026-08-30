@@ -31,13 +31,16 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
 
             <div className="flex items-center gap-2 pt-2">
               <a
-                href={`https://wa.me/${activeAgency.whatsappNumber}?text=Hi%20${encodeURIComponent(activeAgency.name)}`}
+                href="https://wa.me/923020487103"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold hover:bg-emerald-500/20 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-500 text-white border border-emerald-600 shadow-sm text-xs font-semibold hover:bg-emerald-600 transition-colors flex-col items-start"
               >
-                <MessageSquare className="w-3.5 h-3.5" />
-                <span>WhatsApp Live Chat</span>
+                <div className="flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Message Netronomic web on WhatsApp</span>
+                </div>
+                <span className="text-[10px] font-mono opacity-80">+92 302 048 7103</span>
               </a>
             </div>
           </div>

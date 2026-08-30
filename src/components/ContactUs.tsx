@@ -11,6 +11,8 @@ import {
   Sparkles,
   Calculator,
   Share2,
+  User,
+  Lock,
 } from 'lucide-react';
 import { agencyInfo, servicesData } from '../data/agencyData';
 import { SiteConfig } from '../data/siteConfig';
@@ -83,7 +85,7 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
 
   const constructWhatsAppLink = () => {
     const text = `Hi! My name is ${formData.name || 'a client'}. I am interested in ${formData.service} with budget ${formData.budget}. Message: ${formData.message || 'I want to get started.'}`;
-    return `https://wa.me/${activeAgency.whatsappNumber}?text=${encodeURIComponent(text)}`;
+    return "https://wa.me/923020487103";
   };
 
   return (
@@ -142,6 +144,17 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
               <h4 className="text-base font-bold text-slate-900">Contact Channels</h4>
 
               <div className="space-y-4">
+                {/* Developer */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-sky-200 text-sky-600 flex items-center justify-center shadow-xs shrink-0">
+                    <User className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">Developer</span>
+                    <span className="text-sm font-bold text-slate-800">Daim Ali</span>
+                  </div>
+                </div>
+
                 {/* Email */}
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white border border-sky-200 text-sky-600 flex items-center justify-center shadow-xs shrink-0">
@@ -149,8 +162,8 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                   </div>
                   <div>
                     <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">Email Us</span>
-                    <a href={`mailto:${activeAgency.email}`} className="text-sm font-bold text-slate-800 hover:text-sky-600 transition-colors">
-                      {activeAgency.email}
+                    <a href={`mailto:daimali2453@gmail.com`} className="text-sm font-bold text-slate-800 hover:text-sky-600 transition-colors">
+                      daimali2453@gmail.com
                     </a>
                   </div>
                 </div>
@@ -162,8 +175,8 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                   </div>
                   <div>
                     <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">Call Directly</span>
-                    <a href={`tel:${activeAgency.phone}`} className="text-sm font-bold text-slate-800 hover:text-sky-600 transition-colors">
-                      {activeAgency.phone}
+                    <a href={`tel:+92 3020487103`} className="text-sm font-bold text-slate-800 hover:text-sky-600 transition-colors">
+                      +92 3020487103
                     </a>
                   </div>
                 </div>
@@ -174,7 +187,7 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">Office Headquarters</span>
+                    
                     <span className="text-xs font-semibold text-slate-700 block">
                       {activeAgency.address}
                     </span>
@@ -208,15 +221,15 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                     { label: 'LinkedIn', href: activeAgency.social.linkedin },
                     { label: 'YouTube', href: activeAgency.social.youtube },
                   ].map((soc) => (
-                    <a
+                    <button
                       key={soc.label}
-                      href={soc.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1.5 rounded-lg bg-white border border-sky-200 text-xs font-bold text-slate-700 hover:bg-sky-500 hover:text-white hover:border-sky-500 transition-all"
+                      disabled
+                      onClick={(e) => e.preventDefault()}
+                      className="px-3 py-1.5 rounded-lg bg-white border border-sky-200 text-xs font-bold text-slate-400 cursor-not-allowed opacity-60 flex items-center gap-1"
                     >
+                      <Lock className="w-3 h-3" />
                       {soc.label}
-                    </a>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -385,64 +398,7 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
 
         </div>
 
-        {/* Interactive Quick Package Estimator Box */}
-        <div className="bg-gradient-to-br from-sky-900 to-slate-900 rounded-3xl p-8 text-white shadow-xl space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sky-500 text-white flex items-center justify-center">
-              <Calculator className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-sky-400">Interactive Tool</span>
-              <h3 className="text-xl font-bold">Quick Multi-Service Price Estimator</h3>
-            </div>
-          </div>
-
-          <p className="text-xs sm:text-sm text-sky-200">
-            Select multiple services to estimate your bundle total:
-          </p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-            {servicesData.map((s) => {
-              const selected = selectedEstimatorServices.includes(s.title);
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => handleServiceToggle(s.title)}
-                  className={`p-3 rounded-xl border text-left text-xs font-medium transition-all ${
-                    selected
-                      ? 'bg-sky-500 text-white border-sky-400 shadow-md'
-                      : 'bg-white/10 text-sky-100 border-white/10 hover:bg-white/20'
-                  }`}
-                >
-                  <div className="font-bold">{s.title}</div>
-                  <div className="text-[11px] opacity-80">{s.startingPrice}</div>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-              <span className="text-xs text-sky-300 block">Estimated Bundle Price (Starts from):</span>
-              <span className="text-3xl font-extrabold text-white">${calculateEstimate()}</span>
-            </div>
-
-            <button
-              onClick={() => {
-                setFormData((prev) => ({
-                  ...prev,
-                  service: selectedEstimatorServices.join(', '),
-                }));
-                const formEl = document.getElementById('contact');
-                if (formEl) formEl.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="px-6 py-2.5 rounded-xl bg-white text-sky-900 font-bold text-xs sm:text-sm hover:bg-sky-100 transition-colors"
-            >
-              Apply Bundle to Inquiry Form
-            </button>
-          </div>
-        </div>
+        {/* Interactive Quick Package Estimator Box (Removed per user request) */}
 
 
       </div>

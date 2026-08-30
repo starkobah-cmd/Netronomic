@@ -11,9 +11,9 @@ import {
 export const agencyInfo = {
   name: 'Netronomic Web',
   tagline: 'Transforming Ideas Into Exceptional Digital Experiences',
-  phone: '+91 98765 43210',
-  whatsappNumber: '919876543210',
-  email: 'contact@netronomicweb.com',
+  phone: '+92 3020487103',
+  whatsappNumber: '923020487103',
+  email: 'daimali2453@gmail.com',
   address: 'Netronomic Tower, Tech Innovation Hub, Sector 62',
   hours: 'Mon - Sat: 9:00 AM - 7:00 PM IST',
   social: {

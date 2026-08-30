@@ -254,7 +254,7 @@ export const Hero: React.FC<HeroProps> = ({ onGetStarted, onExploreServices, sit
 
                 {/* Bottom WhatsApp bar */}
                 <a
-                  href={`https://wa.me/${activeAgency.whatsappNumber}?text=Hi%20${encodeURIComponent(activeAgency.name)},%20I%20am%20interested%20in%20your%20services.`}
+                  href="https://wa.me/923020487103"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 transition-colors group cursor-pointer shadow-xs"

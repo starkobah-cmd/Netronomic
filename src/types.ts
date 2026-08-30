@@ -40,6 +40,7 @@ export interface PortfolioItem {
   client: string;
   stats?: string;
   link?: string;
+  videoUrl?: string;
 }
 
 export interface PricingPlan {
