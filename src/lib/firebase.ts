@@ -11,4 +11,4 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+export const db = getFirestore(app, "ai-studio-skyblueagency-ad901c14-c882-4831-aaf5-91c0d0ec9f05");
