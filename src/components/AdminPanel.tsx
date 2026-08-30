@@ -456,17 +456,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     } else {
       newList = [(editingPortfolio as PortfolioItem), ...currentList];
     }
-    setLocalConfig({ ...localConfig, portfolio: newList });
+    const updatedConfig = { ...localConfig, portfolio: newList };
+    setLocalConfig(updatedConfig);
+    onSaveSiteConfig(updatedConfig);
+    setSavedSuccessMsg('Portfolio project saved!');
+    setTimeout(() => setSavedSuccessMsg(''), 3000);
     setIsPortfolioModalOpen(false);
     setEditingPortfolio(null);
   };
 
   const handleDeletePortfolio = (id: string) => {
     if (confirm('Are you sure you want to delete this portfolio project?')) {
-      setLocalConfig({
+      const updatedConfig = {
         ...localConfig,
         portfolio: (localConfig.portfolio || []).filter(p => p.id !== id)
-      });
+      };
+      setLocalConfig(updatedConfig);
+      onSaveSiteConfig(updatedConfig);
+      setSavedSuccessMsg('Portfolio project deleted!');
+      setTimeout(() => setSavedSuccessMsg(''), 3000);
     }
   };
 
@@ -1864,7 +1872,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         </select>
 
                         <a
-                          href="https://wa.me/923020487103"
+                          href={`https://wa.me/${localConfig.agency?.whatsappNumber}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold"

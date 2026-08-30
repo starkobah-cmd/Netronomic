@@ -81,7 +81,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose, on
             </button>
 
             <a
-              href="https://wa.me/923020487103"
+              href={`https://wa.me/${agencyInfo.whatsappNumber}?text=${encodeURIComponent('Hi, I would like to inquire about this service.')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"

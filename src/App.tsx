@@ -253,6 +253,7 @@ export default function App() {
           {/* 6. Portfolio */}
           {isSectionVisible('sec-portfolio') && (
             <Portfolio
+              siteConfig={siteConfig}
               onSelectPortfolio={(item) => setSelectedPortfolio(item)}
             />
           )}

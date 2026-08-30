@@ -85,7 +85,7 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
 
   const constructWhatsAppLink = () => {
     const text = `Hi! My name is ${formData.name || 'a client'}. I am interested in ${formData.service} with budget ${formData.budget}. Message: ${formData.message || 'I want to get started.'}`;
-    return "https://wa.me/923020487103";
+    return `https://wa.me/${activeAgency.whatsappNumber}?text=${encodeURIComponent(text)}`;
   };
 
   return (
@@ -162,8 +162,8 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                   </div>
                   <div>
                     <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">Email Us</span>
-                    <a href={`mailto:daimali2453@gmail.com`} className="text-sm font-bold text-slate-800 hover:text-sky-600 transition-colors">
-                      daimali2453@gmail.com
+                    <a href={`mailto:${activeAgency.email}`} className="text-sm font-bold text-slate-800 hover:text-sky-600 transition-colors">
+                      {activeAgency.email}
                     </a>
                   </div>
                 </div>
@@ -175,8 +175,8 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                   </div>
                   <div>
                     <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">Call Directly</span>
-                    <a href={`tel:+92 3020487103`} className="text-sm font-bold text-slate-800 hover:text-sky-600 transition-colors">
-                      +92 3020487103
+                    <a href={`tel:${activeAgency.phone}`} className="text-sm font-bold text-slate-800 hover:text-sky-600 transition-colors">
+                      {activeAgency.phone}
                     </a>
                   </div>
                 </div>

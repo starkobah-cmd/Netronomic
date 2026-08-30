@@ -91,7 +91,7 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({ item, onClose, o
             </button>
 
             <a
-              href="https://wa.me/923020487103"
+              href={`https://wa.me/${agencyInfo.whatsappNumber}?text=${encodeURIComponent('Hi, I saw your portfolio and would like to talk.')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"

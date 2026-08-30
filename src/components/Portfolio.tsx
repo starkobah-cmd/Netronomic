@@ -3,12 +3,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ExternalLink, Tag, Sparkles, Filter, Eye } from 'lucide-react';
 import { portfolioData } from '../data/agencyData';
 import { PortfolioItem, PortfolioCategory } from '../types';
+import { SiteConfig } from '../data/siteConfig';
 
 interface PortfolioProps {
   onSelectPortfolio: (item: PortfolioItem) => void;
+  siteConfig?: SiteConfig;
 }
 
-export const Portfolio: React.FC<PortfolioProps> = ({ onSelectPortfolio }) => {
+export const Portfolio: React.FC<PortfolioProps> = ({ onSelectPortfolio, siteConfig }) => {
   const [activeCategory, setActiveCategory] = useState<PortfolioCategory>('all');
 
   const categories: { id: PortfolioCategory; label: string }[] = [
@@ -20,9 +22,10 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onSelectPortfolio }) => {
     { id: 'video', label: 'Video Editing' },
   ];
 
+  const sourceData = siteConfig?.portfolio || portfolioData;
   const filteredItems = activeCategory === 'all'
-    ? portfolioData
-    : portfolioData.filter((item) => item.category === activeCategory);
+    ? sourceData
+    : sourceData.filter((item) => item.category === activeCategory);
 
   return (
     <section id="portfolio" className="py-20 bg-white relative overflow-hidden">

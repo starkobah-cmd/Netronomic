@@ -31,7 +31,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
 
             <div className="flex items-center gap-2 pt-2">
               <a
-                href="https://wa.me/923020487103"
+                href={`https://wa.me/${activeAgency.whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-500 text-white border border-emerald-600 shadow-sm text-xs font-semibold hover:bg-emerald-600 transition-colors flex-col items-start"

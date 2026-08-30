@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
           {/* Action CTAs */}
           <div className="hidden sm:flex items-center gap-2.5 shrink-0">
             <a
-              href="https://wa.me/923020487103"
+              href={`https://wa.me/${agencyData.whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100 hover:border-emerald-300 transition-all shadow-2xs group"
@@ -193,7 +193,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
           </div>
           <div className="flex flex-col gap-2 pt-2">
             <a
-              href="https://wa.me/923020487103"
+              href={`https://wa.me/${agencyData.whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-2 text-sm font-semibold py-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200"
