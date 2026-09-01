@@ -716,6 +716,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               { id: 'seo', label: 'Advanced SEO Suite', icon: Sparkles, badge: `${seoHealthScore}%` },
               { id: 'inquiries', label: 'Contact Inquiries', icon: MessageSquare, badge: newInquiriesCount > 0 ? `${newInquiriesCount}` : null, alert: newInquiriesCount > 0 },
               { id: 'branding', label: 'Site Branding & Logo', icon: Settings, badge: null },
+              { id: 'social', label: 'Social Media', icon: Share2, badge: null },
               { id: 'agency', label: 'Agency & Contact', icon: Building2, badge: null },
               { id: 'media', label: 'Media Library', icon: ImageIcon, badge: null },
               { id: 'backup', label: 'Data Backup & Import', icon: Database, badge: null },
@@ -1729,7 +1730,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-300 mb-1">
-                      Logo Size ({localConfig.logo?.logoSize || 100}%)
+                      
+                      Global Logo Size ({localConfig.logo?.logoSize || 100}%)
                     </label>
                     <input
                       type="range"
@@ -1744,6 +1746,44 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       }
                       className="w-full mt-2 accent-sky-500"
                     />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Header Logo Alignment
+                    </label>
+                    <select
+                      value={localConfig.logo?.headerLogoAlign || 'left'}
+                      onChange={(e) =>
+                        setLocalConfig({
+                          ...localConfig,
+                          logo: { ...localConfig.logo, headerLogoAlign: e.target.value as any },
+                        })
+                      }
+                      className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
+                    >
+                      <option value="left">Left</option>
+                      <option value="center">Center</option>
+                      <option value="right">Right</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Footer Logo Alignment
+                    </label>
+                    <select
+                      value={localConfig.logo?.footerLogoAlign || 'left'}
+                      onChange={(e) =>
+                        setLocalConfig({
+                          ...localConfig,
+                          logo: { ...localConfig.logo, footerLogoAlign: e.target.value as any },
+                        })
+                      }
+                      className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
+                    >
+                      <option value="left">Left</option>
+                      <option value="center">Center</option>
+                      <option value="right">Right</option>
+                    </select>
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-300 mb-1">
@@ -1890,36 +1930,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-slate-800">
-                <h2 className="text-lg font-bold text-white mb-4">Social Media Links</h2>
-                <p className="text-xs text-slate-400 mb-4">Add your social media profile URLs. Leave empty to hide the button on the website.</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {['facebook', 'instagram', 'twitter', 'linkedin', 'youtube', 'github'].map((network) => (
-                    <div key={network}>
-                      <label className="block text-xs font-bold text-slate-300 mb-1 capitalize">{network} URL</label>
-                      <input
-                        type="text"
-                        value={(localConfig.agency?.social as any)?.[network] || ''}
-                        onChange={(e) =>
-                          setLocalConfig({
-                            ...localConfig,
-                            agency: {
-                              ...localConfig.agency,
-                              social: {
-                                ...localConfig.agency.social,
-                                [network]: e.target.value
-                              }
-                            } as any
-                          })
-                        }
-                        placeholder={`https://${network}.com/yourprofile`}
-                        className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
+              
               <div className="pt-4 border-t border-slate-800 flex justify-end">
                 <button
                   onClick={() => triggerSaveNotification('Branding updated!')}
@@ -1928,33 +1939,82 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   Save Branding Settings
                 </button>
               </div>
-
-              {/* Admin Password & Security Settings Card */}
-              <div className="pt-8 border-t border-slate-800 space-y-4">
-                <div className="flex items-center justify-between bg-slate-950 p-5 rounded-2xl border border-slate-800">
-                  <div className="flex items-center gap-3">
-                    <ShieldCheck className="w-6 h-6 text-sky-400 shrink-0" />
-                    <div>
-                      <h3 className="text-sm font-bold text-white">Admin Authentication & Users</h3>
-                      <p className="text-xs text-slate-400">
-                        Manage administrator accounts, change passwords, and create multi-user roles in the dedicated Security Suite.
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setActiveTab('users')}
-                    className="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition-all cursor-pointer shrink-0"
-                  >
-                    Manage Security & Users
-                  </button>
-                </div>
-              </div>
             </div>
           )}
 
           {/* ------------------------------------------------------------- */}
           {/* TAB 6: AGENCY & CONTACT DETAILS */}
           {/* ------------------------------------------------------------- */}
+          
+          {activeTab === 'social' && (
+            <div className="space-y-8 max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h1 className="text-xl font-extrabold text-white">
+                  Social Media Platforms
+                </h1>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="hideAllSocial"
+                    checked={localConfig.agency?.social?.hideAll || false}
+                    onChange={(e) =>
+                      setLocalConfig({
+                        ...localConfig,
+                        agency: {
+                          ...localConfig.agency,
+                          social: {
+                            ...localConfig.agency?.social,
+                            hideAll: e.target.checked
+                          }
+                        } as any
+                      })
+                    }
+                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-sky-500 focus:ring-sky-500"
+                  />
+                  <label htmlFor="hideAllSocial" className="text-sm font-bold text-slate-300 cursor-pointer">
+                    Hide All Social Icons
+                  </label>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400">Manage all your social media platforms here. To hide a specific platform, just clear its URL.</p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                {['facebook', 'instagram', 'twitter', 'linkedin', 'youtube', 'github', 'tiktok', 'pinterest'].map((network) => (
+                  <div key={network} className="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <label className="block text-xs font-bold text-slate-300 mb-2 capitalize">{network} Profile URL</label>
+                    <input
+                      type="text"
+                      value={(localConfig.agency?.social as any)?.[network] || ''}
+                      onChange={(e) =>
+                        setLocalConfig({
+                          ...localConfig,
+                          agency: {
+                            ...localConfig.agency,
+                            social: {
+                              ...localConfig.agency?.social,
+                              [network]: e.target.value
+                            }
+                          } as any
+                        })
+                      }
+                      placeholder={`https://${network}.com/yourprofile`}
+                      className="w-full px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    />
+                  </div>
+                ))}
+              </div>
+              
+              <div className="pt-6 border-t border-slate-800 flex justify-end">
+                <button
+                  onClick={() => triggerSaveNotification('Social Media updated!')}
+                  className="px-6 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-bold text-xs"
+                >
+                  Save Social Settings
+                </button>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'agency' && (
             <div className="space-y-8 max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6">
               <h1 className="text-xl font-extrabold text-white border-b border-slate-800 pb-3">

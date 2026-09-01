@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Heart, MessageSquare, ArrowUpRight, Mail, Phone, MapPin, Lock, Facebook, Instagram, Twitter, Linkedin, Youtube, Github } from 'lucide-react';
+import {  Sparkles, Heart, MessageSquare, ArrowUpRight, Mail, Phone, MapPin, Lock, Facebook, Instagram, Twitter, Linkedin, Youtube, Github , Music2, Pin } from 'lucide-react';
 import { agencyInfo, servicesData } from '../data/agencyData';
 import { Logo } from './Logo';
 import { SiteConfig } from '../data/siteConfig';
@@ -24,6 +24,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
       case 'linkedin': Icon = Linkedin; break;
       case 'youtube': Icon = Youtube; break;
       case 'github': Icon = Github; break;
+      case 'tiktok': Icon = Music2; break;
+      case 'pinterest': Icon = Pin; break;
       default: return null;
     }
     return (
@@ -48,7 +50,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
           
           {/* Col 1: Brand Info */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className={`lg:col-span-2 space-y-4 ${
+            siteConfig?.logo?.footerLogoAlign === 'center' ? 'flex flex-col items-center text-center' :
+            siteConfig?.logo?.footerLogoAlign === 'right' ? 'flex flex-col items-end text-right' :
+            'flex flex-col items-start text-left'
+          }`}>
             <Logo variant="dark" size="md" showTagline={true} config={siteConfig?.logo} />
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
               Full-service digital agency providing high-impact Website Design, Mobile Apps, Logo & Poster Design, Reel Video Editing, SEO, Profile & Social Backlinks.
@@ -68,7 +74,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
               </a>
               
               {/* Social Links */}
-              {activeAgency.social && (
+              {activeAgency.social && !(activeAgency.social as any).hideAll && (
                 <div className="flex items-center gap-2 flex-wrap">
                   {renderSocialIcon('facebook', activeAgency.social.facebook)}
                   {renderSocialIcon('instagram', activeAgency.social.instagram)}
@@ -76,6 +82,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
                   {renderSocialIcon('linkedin', activeAgency.social.linkedin)}
                   {renderSocialIcon('youtube', activeAgency.social.youtube)}
                   {renderSocialIcon('github', activeAgency.social.github)}
+                  {renderSocialIcon('tiktok', (activeAgency.social as any).tiktok)}
+                  {renderSocialIcon('pinterest', (activeAgency.social as any).pinterest)}
                 </div>
               )}
             </div>

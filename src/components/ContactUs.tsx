@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import {
+import { 
   Send,
   MessageSquare,
   Mail,
@@ -13,7 +13,7 @@ import {
   Share2,
   User,
   Lock,
-} from 'lucide-react';
+Music2, Pin } from 'lucide-react';
 import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github } from 'lucide-react';
 import { agencyInfo, servicesData } from '../data/agencyData';
 import { SiteConfig } from '../data/siteConfig';
@@ -214,7 +214,7 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-3">
                   Connect on Social Media
                 </span>
-                {activeAgency.social && (
+                {activeAgency.social && !(activeAgency.social as any).hideAll && (
                 <div className="flex flex-wrap items-center gap-2">
                   {[
                     { network: 'facebook', label: 'Facebook', href: activeAgency.social.facebook, Icon: Facebook },
@@ -223,6 +223,8 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                     { network: 'linkedin', label: 'LinkedIn', href: activeAgency.social.linkedin, Icon: Linkedin },
                     { network: 'youtube', label: 'YouTube', href: activeAgency.social.youtube, Icon: Youtube },
                     { network: 'github', label: 'GitHub', href: activeAgency.social.github, Icon: Github },
+                    { network: 'tiktok', label: 'TikTok', href: (activeAgency.social as any).tiktok, Icon: Music2 },
+                    { network: 'pinterest', label: 'Pinterest', href: (activeAgency.social as any).pinterest, Icon: Pin },
                   ].filter(soc => soc.href).map((soc) => (
                     <a
                       key={soc.network}
