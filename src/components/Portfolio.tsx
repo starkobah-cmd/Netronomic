@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ExternalLink, Tag, Sparkles, Filter, Eye } from 'lucide-react';
+import { ExternalLink, Tag, Sparkles, Filter, Eye, FolderOpen, ArrowLeft, Layers } from 'lucide-react';
 import { portfolioData } from '../data/agencyData';
-import { PortfolioItem, PortfolioCategory } from '../types';
+import { PortfolioItem } from '../types';
 import { SiteConfig } from '../data/siteConfig';
 
 interface PortfolioProps {
@@ -11,142 +11,193 @@ interface PortfolioProps {
 }
 
 export const Portfolio: React.FC<PortfolioProps> = ({ onSelectPortfolio, siteConfig }) => {
-  const [activeCategory, setActiveCategory] = useState<PortfolioCategory>('all');
-
-  const categories: { id: PortfolioCategory; label: string }[] = [
-    { id: 'all', label: 'All Projects' },
-    { id: 'websites', label: 'Websites' },
-    { id: 'logos', label: 'Logos' },
-    { id: 'posters', label: 'Posters' },
-    { id: 'apps', label: 'Apps' },
-    { id: 'video', label: 'Video Editing' },
-  ];
+  const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
 
   const sourceData = siteConfig?.portfolio || portfolioData;
-  const filteredItems = activeCategory === 'all'
-    ? sourceData
-    : sourceData.filter((item) => item.category === activeCategory);
+  
+  // Group portfolio items by category dynamically
+  const folders = useMemo(() => {
+    const grouped = sourceData.reduce((acc, item) => {
+      if (!acc[item.category]) {
+        acc[item.category] = {
+          id: item.category,
+          label: item.categoryLabel,
+          items: [],
+          coverImage: item.image,
+          coverVideo: item.videoUrl
+        };
+      }
+      acc[item.category].items.push(item);
+      return acc;
+    }, {} as Record<string, { id: string; label: string; items: PortfolioItem[]; coverImage: string; coverVideo?: string }>);
+    return Object.values(grouped);
+  }, [sourceData]);
+
+  // Find the currently active folder data
+  const activeFolderData = selectedFolder ? folders.find(f => f.id === selectedFolder) : null;
+  const filteredItems = activeFolderData ? activeFolderData.items : [];
 
   return (
-    <section id="portfolio" className="py-20 bg-white relative overflow-hidden">
+    <section id="portfolio" className="py-20 bg-slate-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-bold uppercase tracking-wider">
-            <span>6. Portfolio</span>
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-sky-800 text-xs font-bold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Our Featured Work</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Our Featured Work Across <span className="text-sky-600">5 Creative Domains</span>
+            Explore Our <span className="text-sky-600">Creative Portfolios</span>
           </h2>
           <p className="text-base sm:text-lg text-slate-600">
-            Explore live samples of custom Websites, Logos, Posters, Mobile Apps, and Information Reel Editing crafted for global brands.
+            Browse through our dedicated service categories to see high-impact projects we've delivered.
           </p>
         </div>
 
-        {/* Portfolio Tabs (5 categories + All) */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                activeCategory === cat.id
-                  ? 'bg-sky-500 text-white shadow-md shadow-sky-500/25'
-                  : 'bg-slate-100 text-slate-700 hover:bg-sky-50 hover:text-sky-700'
-              }`}
+        <AnimatePresence mode="wait">
+          {!selectedFolder ? (
+            // FOLDER VIEW
+            <motion.div 
+              key="folders"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
             >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Portfolio Grid */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence>
-            {filteredItems.map((item) => (
-              <motion.div
-                key={item.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white rounded-2xl border border-sky-100 overflow-hidden shadow-sm hover:shadow-xl hover:border-sky-300 transition-all group flex flex-col justify-between"
-              >
-                <div>
-                  {/* Image Container with hover overlay */}
-                  <div className="relative h-52 overflow-hidden bg-slate-100">
-                    {item.videoUrl ? (
-                      <video
-                        src={item.videoUrl}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+              {folders.map((folder) => (
+                <div 
+                  key={folder.id}
+                  onClick={() => setSelectedFolder(folder.id)}
+                  className="group cursor-pointer bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-2xl hover:border-sky-300 transition-all duration-300 overflow-hidden flex flex-col"
+                >
+                  <div className="relative h-48 sm:h-56 bg-slate-100 overflow-hidden">
+                    {folder.coverVideo ? (
+                      <video src={folder.coverVideo} autoPlay loop muted playsInline className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      <img src={folder.coverImage} alt={folder.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                      <button
-                        onClick={() => onSelectPortfolio(item)}
-                        className="px-4 py-2 rounded-xl bg-white text-slate-900 text-xs font-bold shadow-lg hover:bg-sky-50 flex items-center gap-1.5 cursor-pointer"
-                      >
-                        <Eye className="w-4 h-4 text-sky-600" />
-                        <span>Preview Details</span>
-                      </button>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
+                      <div className="flex items-center gap-2 text-sky-300 mb-1">
+                        <FolderOpen className="w-5 h-5" />
+                        <span className="text-xs font-bold tracking-wider uppercase">{folder.items.length} Projects</span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-white group-hover:text-sky-400 transition-colors">{folder.label}</h3>
                     </div>
-
-                    <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs text-slate-900 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg border border-slate-200">
-                      {item.categoryLabel}
-                    </span>
+                    {/* Hover Overlay Button */}
+                    <div className="absolute inset-0 bg-sky-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                      <span className="px-5 py-2.5 bg-white text-sky-700 rounded-xl font-bold shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                        <Layers className="w-4 h-4" />
+                        View Portfolio
+                      </span>
+                    </div>
                   </div>
+                </div>
+              ))}
+            </motion.div>
+          ) : (
+            // ITEMS VIEW (Inside a Folder)
+            <motion.div 
+              key="items"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Back Button & Category Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="flex items-center gap-4">
+                  <button 
+                    onClick={() => setSelectedFolder(null)}
+                    className="p-2.5 bg-slate-100 hover:bg-sky-100 text-slate-600 hover:text-sky-600 rounded-xl transition-colors cursor-pointer"
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                  </button>
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900">{activeFolderData?.label} Projects</h3>
+                    <p className="text-xs text-slate-500 font-medium">{activeFolderData?.items.length} items in this category</p>
+                  </div>
+                </div>
+              </div>
 
-                  {/* Body Content */}
-                  <div className="p-6 space-y-3">
-                    <div className="flex items-center justify-between text-xs text-sky-600 font-semibold">
-                      <span>Client: {item.client}</span>
-                      {item.stats && (
-                        <span className="bg-sky-50 px-2 py-0.5 rounded text-sky-700 font-bold">
-                          {item.stats}
+              {/* Grid of Items */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-sky-300 transition-all group flex flex-col justify-between"
+                  >
+                    <div>
+                      {/* Image Container with hover overlay */}
+                      <div className="relative h-52 overflow-hidden bg-slate-100">
+                        {item.videoUrl ? (
+                          <video
+                            src={item.videoUrl}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                          <button
+                            onClick={() => onSelectPortfolio(item)}
+                            className="px-4 py-2 rounded-xl bg-white text-slate-900 text-xs font-bold shadow-lg hover:bg-sky-50 flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <Eye className="w-4 h-4 text-sky-600" />
+                            <span>Preview Details</span>
+                          </button>
+                        </div>
+                      </div>
+                      {/* Body Content */}
+                      <div className="p-6 space-y-3">
+                        <div className="flex items-center justify-between text-xs text-sky-600 font-semibold">
+                          <span>Client: {item.client}</span>
+                          {item.stats && (
+                            <span className="bg-sky-50 px-2 py-0.5 rounded text-sky-700 font-bold">
+                              {item.stats}
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-1">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-2">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                    {/* Footer Tags */}
+                    <div className="px-6 pb-6 pt-2 border-t border-slate-50 flex flex-wrap gap-1.5">
+                      {item.tags.slice(0, 3).map((t, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[10px] font-medium px-2 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                      {item.tags.length > 3 && (
+                        <span className="text-[10px] font-medium px-2 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wide">
+                          +{item.tags.length - 3}
                         </span>
                       )}
                     </div>
-
-                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
-                      {item.title}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                      {item.description}
-                    </p>
                   </div>
-                </div>
-
-                {/* Footer Tags */}
-                <div className="px-6 pb-6 pt-2 border-t border-slate-50 flex flex-wrap gap-1.5">
-                  {item.tags.map((t, idx) => (
-                    <span
-                      key={idx}
-                      className="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-600"
-                    >
-                      #{t}
-                    </span>
-                  ))}
-                </div>
-
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

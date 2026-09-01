@@ -25,7 +25,7 @@ export const FAQ: React.FC = () => {
         {/* Section Header */}
         <div className="text-center space-y-3 mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-wider">
-            <span>9. FAQ</span>
+            <span>FAQ</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Frequently Asked <span className="text-sky-600">Questions</span>

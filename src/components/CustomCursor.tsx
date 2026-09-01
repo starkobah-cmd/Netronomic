@@ -9,22 +9,19 @@ export const CustomCursor: React.FC<{ primaryColor?: string }> = ({ primaryColor
   const [reducedMotion, setReducedMotion] = useState(false);
 
   const ringRef = useRef<HTMLDivElement>(null);
-  const auraRef = useRef<HTMLDivElement>(null);
-  const trailRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
 
   const mousePos = useRef({ x: -100, y: -100 });
   const ringPos = useRef({ x: -100, y: -100 });
-  const auraPos = useRef({ x: -100, y: -100 });
-  const trailPos = useRef({ x: -100, y: -100 });
+  const dotPos = useRef({ x: -100, y: -100 });
   const velocity = useRef({ x: 0, y: 0 });
 
   const animFrameId = useRef<number | null>(null);
 
   useEffect(() => {
-    // Media query checks for mobile touch & reduced motion
     const touchQuery = window.matchMedia('(pointer: coarse)');
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
+    
     setIsTouch(touchQuery.matches);
     setReducedMotion(motionQuery.matches);
 
@@ -49,7 +46,6 @@ export const CustomCursor: React.FC<{ primaryColor?: string }> = ({ primaryColor
       
       mousePos.current = { x: e.clientX, y: e.clientY };
       
-      // Calculate velocity for 3D tilt effect
       velocity.current = {
         x: e.clientX - prevX,
         y: e.clientY - prevY
@@ -57,7 +53,6 @@ export const CustomCursor: React.FC<{ primaryColor?: string }> = ({ primaryColor
 
       if (!isVisible) setIsVisible(true);
 
-      // Safe element detection
       const target = e.target as HTMLElement | null;
       if (target) {
         let isInteractive = false;
@@ -70,9 +65,7 @@ export const CustomCursor: React.FC<{ primaryColor?: string }> = ({ primaryColor
           isTextEntry = !!target.closest(
             'input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable="true"]'
           );
-        } catch {
-          // Fallback safely if selector fails
-        }
+        } catch {}
 
         setIsHovered(isInteractive && !isTextEntry);
         setIsInput(isTextEntry);
@@ -90,37 +83,24 @@ export const CustomCursor: React.FC<{ primaryColor?: string }> = ({ primaryColor
     document.addEventListener('mouseleave', onMouseLeave);
     document.addEventListener('mouseenter', onMouseEnter);
 
-    // Smooth animation frame loop with lerp and 3D inertia tilt
     const render = () => {
-      // Lerp positions with varying damping for 3D depth layer effect
       ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.22;
       ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.22;
+      
+      dotPos.current.x += (mousePos.current.x - dotPos.current.x) * 0.8;
+      dotPos.current.y += (mousePos.current.y - dotPos.current.y) * 0.8;
 
-      auraPos.current.x += (mousePos.current.x - auraPos.current.x) * 0.12;
-      auraPos.current.y += (mousePos.current.y - auraPos.current.y) * 0.12;
-
-      trailPos.current.x += (mousePos.current.x - trailPos.current.x) * 0.07;
-      trailPos.current.y += (mousePos.current.y - trailPos.current.y) * 0.07;
-
-      // Calculate 3D tilt rotation based on velocity
       const tiltX = Math.max(-25, Math.min(25, -velocity.current.y * 0.8));
       const tiltY = Math.max(-25, Math.min(25, velocity.current.x * 0.8));
-
-      // Damp velocity
+      
       velocity.current.x *= 0.85;
       velocity.current.y *= 0.85;
 
-      // Update transform positions safely
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0px) translate(-50%, -50%) perspective(400px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
       }
-
-      if (auraRef.current) {
-        auraRef.current.style.transform = `translate3d(${auraPos.current.x}px, ${auraPos.current.y}px, 0px) translate(-50%, -50%) scale(${isHovered ? 1.4 : 1})`;
-      }
-
-      if (trailRef.current) {
-        trailRef.current.style.transform = `translate3d(${trailPos.current.x}px, ${trailPos.current.y}px, 0px) translate(-50%, -50%)`;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0px) translate(-50%, -50%)`;
       }
 
       animFrameId.current = requestAnimationFrame(render);
@@ -142,49 +122,34 @@ export const CustomCursor: React.FC<{ primaryColor?: string }> = ({ primaryColor
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[99999] overflow-hidden select-none">
-      {/* 1. Deep 3D Ambient Glow Aura */}
+      {/* 1. Center Point (Fast moving) */}
       <div
-        ref={auraRef}
-        className={`pointer-events-none fixed top-0 left-0 rounded-full blur-md transition-opacity duration-300 ${
-          isVisible && !isInput ? 'opacity-40' : 'opacity-0'
-        }`}
-        style={{
-          width: '64px',
-          height: '64px',
-          background: `radial-gradient(circle, ${primaryColor}80 0%, transparent 70%)`,
-          willChange: 'transform',
-        }}
-      />
-
-      {/* 2. Soft Light Trail Particle */}
-      <div
-        ref={trailRef}
+        ref={dotRef}
         className={`pointer-events-none fixed top-0 left-0 rounded-full transition-opacity duration-300 ${
-          isVisible && !isInput ? 'opacity-30' : 'opacity-0'
+          isVisible && !isInput ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
-          width: '18px',
-          height: '18px',
+          width: isHovered ? '4px' : '6px',
+          height: isHovered ? '4px' : '6px',
           backgroundColor: primaryColor,
-          filter: 'blur(3px)',
           willChange: 'transform',
         }}
       />
 
-      {/* 3. Futuristic 3D Ring with Reticle Notches */}
+      {/* 2. Futuristic 3D Ring (Smaller) */}
       <div
         ref={ringRef}
         className={`pointer-events-none fixed top-0 left-0 rounded-full border border-solid transition-all duration-200 ease-out flex items-center justify-center ${
           isVisible && !isInput ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
-          width: isHovered ? '56px' : isClicking ? '28px' : '40px',
-          height: isHovered ? '56px' : isClicking ? '28px' : '40px',
+          width: isHovered ? '40px' : isClicking ? '20px' : '28px',
+          height: isHovered ? '40px' : isClicking ? '20px' : '28px',
           borderColor: isHovered ? primaryColor : `${primaryColor}aa`,
           backgroundColor: isHovered ? `${primaryColor}18` : 'transparent',
           boxShadow: isHovered
-            ? `0 0 25px ${primaryColor}60, inset 0 0 15px ${primaryColor}30`
-            : `0 0 12px ${primaryColor}30`,
+            ? `0 0 15px ${primaryColor}40, inset 0 0 10px ${primaryColor}20`
+            : 'none',
           willChange: 'transform',
         }}
       >
@@ -213,4 +178,3 @@ export const CustomCursor: React.FC<{ primaryColor?: string }> = ({ primaryColor
     </div>
   );
 };
-

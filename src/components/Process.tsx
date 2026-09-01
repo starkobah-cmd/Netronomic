@@ -34,7 +34,7 @@ export const Process: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-wider">
-            <span>5. Our Process</span>
+            <span>Our Process</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Seamless 6-Step Workflow From <span className="text-sky-600">Concept to Delivery</span>

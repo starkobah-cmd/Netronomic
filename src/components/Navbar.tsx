@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Phone, MessageSquare, Menu, X, ArrowUpRight, BookOpen } from 'lucide-react';
+import { Sparkles, Phone, MessageSquare, Menu, X, ArrowUpRight, BookOpen, Lock, User } from 'lucide-react';
 import { BlogViewMode } from '../types';
 import { Logo } from './Logo';
 import { SiteConfig } from '../data/siteConfig';
@@ -32,8 +32,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
   }, []);
 
   const navLinks = [
-    { label: 'Services', href: '#services' },
+    { label: 'Home', href: '#home' },
     { label: 'About Us', href: '#about' },
+    { label: 'Services', href: '#services' },
     { label: 'Process', href: '#process' },
     { label: 'Portfolio', href: '#portfolio' },
     { label: 'Pricing', href: '#pricing' },
@@ -97,7 +98,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
                     }, 100);
                   }
                 }}
-                className="text-[13px] font-semibold text-slate-700 hover:text-sky-600 px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all duration-200"
+                className="text-[13px] font-semibold text-slate-700 hover:text-sky-600 px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all duration-200 whitespace-nowrap"
               >
                 {link.label}
               </a>
@@ -119,6 +120,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
 
           {/* Action CTAs */}
           <div className="hidden sm:flex items-center gap-2.5 shrink-0">
+                        {/* Login / Admin Button */}
+            <button
+              onClick={handleAdminClick}
+              className="inline-flex items-center gap-1.5 text-[13px] font-bold px-3.5 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-md group cursor-pointer"
+              title="Login"
+            >
+              <User className="w-3.5 h-3.5" />
+              <span>Login</span>
+            </button>
             <a
               href={(agencyData.whatsappNumber?.startsWith('http') ? agencyData.whatsappNumber : `https://wa.me/${agencyData.whatsappNumber}`)}
               target="_blank"
@@ -175,7 +185,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
                     onNavigate('main');
                   }
                 }}
-                className="text-sm font-medium text-slate-700 hover:text-sky-600 p-2 rounded-md hover:bg-sky-50 transition-colors"
+                className="text-sm font-medium text-slate-700 hover:text-sky-600 p-2 rounded-md hover:bg-sky-50 transition-colors whitespace-nowrap"
               >
                 {link.label}
               </a>
@@ -201,11 +211,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
               <MessageSquare className="w-4 h-4 text-emerald-600" />
               <span>Chat on WhatsApp</span>
             </a>
+            
+            <button
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                handleAdminClick(e);
+              }}
+              className="w-full flex items-center justify-center gap-2 text-sm font-semibold py-2.5 rounded-xl bg-slate-900 text-white shadow-md"
+            >
+              <User className="w-4 h-4" />
+              <span>Login</span>
+            </button>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenQuote();
               }}
+
               className="w-full text-center text-sm font-semibold py-2.5 rounded-xl bg-sky-500 text-white shadow-md"
             >
               Get Started / Contact Us

@@ -22,7 +22,7 @@ export const WhyChooseUs: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-bold uppercase tracking-wider">
-            <span>4. Why Choose Us</span>
+            <span>Why Choose Us</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             5 Core Pillars That Make Us <span className="text-sky-600">The Preferred Agency</span>

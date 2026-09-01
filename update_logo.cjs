@@ -1,4 +1,6 @@
-import React, { useId } from 'react';
+const fs = require('fs');
+
+const content = `import React, { useId } from 'react';
 import { SiteLogoConfig } from '../data/siteConfig';
 
 interface LogoProps {
@@ -67,14 +69,14 @@ export const Logo: React.FC<LogoProps> = ({
 
   return (
     <div 
-      className={`inline-flex items-center select-none group/logo ${className}`}
-      style={{ gap: `${gapPx}px` }}
+      className={\`inline-flex items-center select-none group/logo \${className}\`}
+      style={{ gap: \`\${gapPx}px\` }}
     >
       {/* Icon (Custom Image or Vector Orb or None) */}
       {iconVariant !== 'none' && (
         <div 
-          className={`relative ${iconSizes[size]} shrink-0 flex items-center justify-center`}
-          style={{ transform: `scale(${logoSizePct / 100})`, transformOrigin: 'left center' }}
+          className={\`relative \${iconSizes[size]} shrink-0 flex items-center justify-center\`}
+          style={{ transform: \`scale(\${logoSizePct / 100})\`, transformOrigin: 'left center' }}
         >
           {/* Soft Background Glow */}
           <div className="absolute inset-0 rounded-full bg-sky-400/10 blur-sm group-hover/logo:bg-sky-400/25 transition-all duration-300" />
@@ -94,24 +96,24 @@ export const Logo: React.FC<LogoProps> = ({
             >
               {/* ... SVG content ... */}
               <defs>
-                <linearGradient id={`orbGradCore_${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id={\`orbGradCore_\${uid}\`} x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#38bdf8" />
                   <stop offset="50%" stopColor="#0284c7" />
                   <stop offset="100%" stopColor="#0369a1" />
                 </linearGradient>
-                <linearGradient id={`ringGradGlow_${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id={\`ringGradGlow_\${uid}\`} x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#38bdf8" />
                   <stop offset="50%" stopColor="#0284c7" />
                   <stop offset="100%" stopColor="#0369a1" />
                 </linearGradient>
-                <filter id={`softGlow_${uid}`} x="-20%" y="-20%" width="140%" height="140%">
+                <filter id={\`softGlow_\${uid}\`} x="-20%" y="-20%" width="140%" height="140%">
                   <feGaussianBlur stdDeviation="1.5" result="blur" />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
                 </filter>
               </defs>
-              <ellipse cx="50" cy="50" rx="43" ry="17" transform="rotate(-30 50 50)" stroke={`url(#ringGradGlow_${uid})`} strokeWidth="2.5" strokeDasharray="50 110" opacity="0.5" />
-              <g filter={`url(#softGlow_${uid})`}>
-                <circle cx="50" cy="50" r="28" stroke={`url(#orbGradCore_${uid})`} strokeWidth="2" fill="none" opacity="0.35" />
+              <ellipse cx="50" cy="50" rx="43" ry="17" transform="rotate(-30 50 50)" stroke={\`url(#ringGradGlow_\${uid})\`} strokeWidth="2.5" strokeDasharray="50 110" opacity="0.5" />
+              <g filter={\`url(#softGlow_\${uid})\`}>
+                <circle cx="50" cy="50" r="28" stroke={\`url(#orbGradCore_\${uid})\`} strokeWidth="2" fill="none" opacity="0.35" />
                 <ellipse cx="50" cy="50" rx="28" ry="12" stroke="#0284c7" strokeWidth="1.2" fill="none" opacity="0.75" />
                 <ellipse cx="50" cy="50" rx="12" ry="28" stroke="#0284c7" strokeWidth="1.2" fill="none" opacity="0.75" />
                 <line x1="30" y1="34" x2="70" y2="66" stroke="#38bdf8" strokeWidth="1.4" />
@@ -119,7 +121,7 @@ export const Logo: React.FC<LogoProps> = ({
                 <line x1="50" y1="22" x2="50" y2="78" stroke="#0284c7" strokeWidth="1.2" />
                 <line x1="22" y1="50" x2="78" y2="50" stroke="#0284c7" strokeWidth="1.2" />
               </g>
-              <ellipse cx="50" cy="50" rx="45" ry="18" transform="rotate(-30 50 50)" stroke={`url(#ringGradGlow_${uid})`} strokeWidth="3" fill="none" />
+              <ellipse cx="50" cy="50" rx="45" ry="18" transform="rotate(-30 50 50)" stroke={\`url(#ringGradGlow_\${uid})\`} strokeWidth="3" fill="none" />
               <g fill="#38bdf8">
                 <circle cx="50" cy="22" r="3" fill="#0284c7" />
                 <circle cx="50" cy="78" r="3" fill="#0284c7" />
@@ -143,7 +145,7 @@ export const Logo: React.FC<LogoProps> = ({
             href={btnUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`relative inline-flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-bold shadow-md transition-all ${getBtnColorClasses()} ${btnBorder ? 'border-2 border-white/20' : ''} ${btnShine ? 'overflow-hidden group/btn' : ''}`}
+            className={\`relative inline-flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-bold shadow-md transition-all \${getBtnColorClasses()} \${btnBorder ? 'border-2 border-white/20' : ''} \${btnShine ? 'overflow-hidden group/btn' : ''}\`}
           >
             {btnShine && (
               <div className="absolute inset-0 -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
@@ -155,9 +157,9 @@ export const Logo: React.FC<LogoProps> = ({
             {brandName && (
               <div className="flex items-center gap-1">
                 <span
-                  className={`font-extrabold tracking-tight uppercase ${textSizes[size]} ${
+                  className={\`font-extrabold tracking-tight uppercase \${textSizes[size]} \${
                     isDark ? 'text-white' : 'text-slate-900 group-hover/logo:text-sky-600 transition-colors duration-200'
-                  }`}
+                  }\`}
                 >
                   {brandName}
                   {showDot && <span className="text-sky-500">.</span>}
@@ -166,7 +168,7 @@ export const Logo: React.FC<LogoProps> = ({
             )}
             {showTagline && taglineText && (
               <div className="flex items-center gap-1.5 mt-0.5 sm:mt-1">
-                <span className={`uppercase font-bold text-sky-600 ${taglineSizes[size]}`}>
+                <span className={\`uppercase font-bold text-sky-600 \${taglineSizes[size]}\`}>
                   {taglineText}
                 </span>
               </div>
@@ -177,3 +179,6 @@ export const Logo: React.FC<LogoProps> = ({
     </div>
   );
 };
+`;
+
+fs.writeFileSync('src/components/Logo.tsx', content);

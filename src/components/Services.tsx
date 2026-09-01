@@ -58,7 +58,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService, onRequestQu
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>2. Our Services</span>
+            <span>Our Services</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Comprehensive Digital Solutions Built to <span className="text-sky-600">Elevate Your Business</span>

@@ -14,6 +14,7 @@ import {
   User,
   Lock,
 } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github } from 'lucide-react';
 import { agencyInfo, servicesData } from '../data/agencyData';
 import { SiteConfig } from '../data/siteConfig';
 
@@ -98,7 +99,7 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-bold uppercase tracking-wider">
-            <span>10. Contact Us</span>
+            <span>Contact Us</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Let's Build Something <span className="text-sky-600">Extraordinary Together</span>
@@ -213,25 +214,29 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-3">
                   Connect on Social Media
                 </span>
-                <div className="flex items-center gap-2">
+                {activeAgency.social && (
+                <div className="flex flex-wrap items-center gap-2">
                   {[
-                    { label: 'Facebook', href: activeAgency.social.facebook },
-                    { label: 'Instagram', href: activeAgency.social.instagram },
-                    { label: 'Twitter', href: activeAgency.social.twitter },
-                    { label: 'LinkedIn', href: activeAgency.social.linkedin },
-                    { label: 'YouTube', href: activeAgency.social.youtube },
-                  ].map((soc) => (
-                    <button
-                      key={soc.label}
-                      disabled
-                      onClick={(e) => e.preventDefault()}
-                      className="px-3 py-1.5 rounded-lg bg-white border border-sky-200 text-xs font-bold text-slate-400 cursor-not-allowed opacity-60 flex items-center gap-1"
+                    { network: 'facebook', label: 'Facebook', href: activeAgency.social.facebook, Icon: Facebook },
+                    { network: 'instagram', label: 'Instagram', href: activeAgency.social.instagram, Icon: Instagram },
+                    { network: 'twitter', label: 'Twitter', href: activeAgency.social.twitter, Icon: Twitter },
+                    { network: 'linkedin', label: 'LinkedIn', href: activeAgency.social.linkedin, Icon: Linkedin },
+                    { network: 'youtube', label: 'YouTube', href: activeAgency.social.youtube, Icon: Youtube },
+                    { network: 'github', label: 'GitHub', href: activeAgency.social.github, Icon: Github },
+                  ].filter(soc => soc.href).map((soc) => (
+                    <a
+                      key={soc.network}
+                      href={soc.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 rounded-lg bg-white border border-sky-200 text-xs font-bold text-slate-600 hover:text-sky-600 hover:border-sky-400 hover:bg-sky-50 flex items-center gap-1.5 transition-all shadow-sm"
                     >
-                      <Lock className="w-3 h-3" />
+                      <soc.Icon className="w-3.5 h-3.5" />
                       {soc.label}
-                    </button>
+                    </a>
                   ))}
                 </div>
+              )}
               </div>
 
             </div>

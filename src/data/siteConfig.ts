@@ -9,7 +9,15 @@ export interface SiteLogoConfig {
   showTagline: boolean;
   customLogoUrl: string;
   glowStyle: 'subtle' | 'medium' | 'vibrant' | 'none';
-  iconVariant: 'network-orb' | 'custom-image';
+  iconVariant: 'network-orb' | 'custom-image' | 'none';
+  logoSize?: number;
+  gap?: number;
+  showCustomButton?: boolean;
+  customButtonText?: string;
+  customButtonUrl?: string;
+  customButtonColor?: string;
+  customButtonShine?: boolean;
+  customButtonBorder?: boolean;
 }
 
 export interface SiteHeroConfig {

@@ -27,7 +27,7 @@ export interface WhyChooseItem {
   highlight: string;
 }
 
-export type PortfolioCategory = 'all' | 'websites' | 'logos' | 'posters' | 'apps' | 'video';
+export type PortfolioCategory = string;
 
 export interface PortfolioItem {
   id: string;

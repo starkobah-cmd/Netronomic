@@ -69,7 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
               
               {/* Social Links */}
               {activeAgency.social && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   {renderSocialIcon('facebook', activeAgency.social.facebook)}
                   {renderSocialIcon('instagram', activeAgency.social.instagram)}
                   {renderSocialIcon('twitter', activeAgency.social.twitter)}
@@ -145,10 +145,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
             <button
               onClick={() => onNavigate && onNavigate('site-admin')}
               className="hover:text-sky-400 text-slate-400 font-semibold transition-colors flex items-center gap-1 cursor-pointer"
-              title="Admin CMS Login"
+              title="Login"
             >
               <Lock className="w-3 h-3 text-sky-400" />
-              <span>Admin Portal</span>
+              <span>Login Portal</span>
             </button>
           </div>
         </div>
