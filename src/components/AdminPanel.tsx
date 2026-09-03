@@ -1697,7 +1697,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 onChange={(url) =>
                   setLocalConfig({
                     ...localConfig,
-                    logo: { ...localConfig.logo, customLogoUrl: url },
+                    logo: { ...localConfig.logo, customLogoUrl: url, iconVariant: url ? 'custom-image' : localConfig.logo?.iconVariant || 'network-orb' },
                   })
                 }
                 category="logo"

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Send, Sparkles, CheckCircle2 } from 'lucide-react';
+import { SiteConfig } from "../data/siteConfig";
 import { servicesData } from '../data/agencyData';
 
 interface QuickQuoteModalProps {

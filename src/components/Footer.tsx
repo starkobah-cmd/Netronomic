@@ -76,12 +76,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuote, onNavigate, siteCon
               {/* Social Links */}
               {activeAgency.social && !(activeAgency.social as any).hideAll && (
                 <div className="flex items-center gap-2 flex-wrap">
-                  {renderSocialIcon('facebook', activeAgency.social.facebook)}
-                  {renderSocialIcon('instagram', activeAgency.social.instagram)}
-                  {renderSocialIcon('twitter', activeAgency.social.twitter)}
-                  {renderSocialIcon('linkedin', activeAgency.social.linkedin)}
-                  {renderSocialIcon('youtube', activeAgency.social.youtube)}
-                  {renderSocialIcon('github', activeAgency.social.github)}
+                  {!(activeAgency.social as any).facebook_hidden && renderSocialIcon('facebook', activeAgency.social.facebook)}
+                  {!(activeAgency.social as any).instagram_hidden && renderSocialIcon('instagram', activeAgency.social.instagram)}
+                  {!(activeAgency.social as any).twitter_hidden && renderSocialIcon('twitter', activeAgency.social.twitter)}
+                  {!(activeAgency.social as any).linkedin_hidden && renderSocialIcon('linkedin', activeAgency.social.linkedin)}
+                  {!(activeAgency.social as any).youtube_hidden && renderSocialIcon('youtube', activeAgency.social.youtube)}
+                  {!(activeAgency.social as any).github_hidden && renderSocialIcon('github', activeAgency.social.github)}
                   {renderSocialIcon('tiktok', (activeAgency.social as any).tiktok)}
                   {renderSocialIcon('pinterest', (activeAgency.social as any).pinterest)}
                 </div>

@@ -12,7 +12,8 @@ interface ServiceModalProps {
   onRequestQuote: (serviceTitle: string) => void;
 }
 
-export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose, onRequestQuote }) => {
+export const ServiceModal: React.FC<ServiceModalProps> = ({ siteConfig, service, onClose, onRequestQuote }) => {
+  const activeAgency = siteConfig?.agency || agencyInfo;
   if (!service) return null;
 
   return (
