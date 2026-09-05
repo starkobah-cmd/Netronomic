@@ -10,6 +10,8 @@ import { AboutUs } from './components/AboutUs';
 import { WhyChooseUs } from './components/WhyChooseUs';
 import { Process } from './components/Process';
 import { Portfolio } from './components/Portfolio';
+import { PortfolioPage } from './components/PortfolioPage';
+import { PortfolioDetail } from './components/PortfolioDetail';
 import { Pricing } from './components/Pricing';
 import { Testimonials } from './components/Testimonials';
 import { FAQ } from './components/FAQ';
@@ -17,7 +19,7 @@ import { ContactUs } from './components/ContactUs';
 import { Footer } from './components/Footer';
 
 import { ServiceModal } from './components/ServiceModal';
-import { PortfolioModal } from './components/PortfolioModal';
+
 import { QuickQuoteModal } from './components/QuickQuoteModal';
 
 import { BlogListing } from './components/BlogListing';
@@ -277,10 +279,39 @@ export default function App() {
         />
       )}
 
+      {/* Portfolio List View */}
+      {blogView === 'portfolio-list' && (
+        <PortfolioPage 
+          items={siteConfig.portfolio || []} 
+          onSelectPortfolio={(item) => {
+            setSelectedPortfolio(item);
+            setBlogView('portfolio-detail');
+            window.scrollTo(0, 0);
+          }}
+        />
+      )}
+
+      {/* Portfolio Detail View */}
+      {blogView === 'portfolio-detail' && selectedPortfolio && (
+        <PortfolioDetail 
+          item={selectedPortfolio}
+          allItems={siteConfig.portfolio || []}
+          onBack={() => {
+            setBlogView('portfolio-list');
+            window.scrollTo(0, 0);
+          }}
+          onSelectPortfolio={(item) => {
+            setSelectedPortfolio(item);
+            window.scrollTo(0, 0);
+          }}
+        />
+      )}
+
+
       {/* View Switcher: Main Landing Page vs Blog Pages vs Full Site Admin */}
       {blogView === 'main' && (
         <main>
-          {/* 1. Hero Section */}
+          {/* 1. Hero Section (Home) */}
           {isSectionVisible('sec-hero') && (
             <Hero
               siteConfig={siteConfig}
@@ -292,7 +323,10 @@ export default function App() {
             />
           )}
 
-          {/* 2. Our Services */}
+          {/* 2. About Us */}
+          {isSectionVisible('sec-about') && <AboutUs />}
+
+          {/* 3. Our Services */}
           {isSectionVisible('sec-services') && (
             <Services
               onSelectService={(service) => setSelectedService(service)}
@@ -300,35 +334,37 @@ export default function App() {
             />
           )}
 
-          {/* 3. About Us */}
-          {isSectionVisible('sec-about') && <AboutUs />}
-
-          {/* 4. Why Choose Us (Hidden by user request) */}
-
-          {/* 5. Our Process */}
+          {/* 4. Our Process */}
           {isSectionVisible('sec-process') && <Process />}
 
-          {/* 6. Portfolio */}
+          {/* 5. Portfolio */}
           {isSectionVisible('sec-portfolio') && (
             <Portfolio
+              items={siteConfig.portfolio || []}
               siteConfig={siteConfig}
-              onSelectPortfolio={(item) => setSelectedPortfolio(item)}
+              onSelectPortfolio={(item) => {
+                setSelectedPortfolio(item);
+                setBlogView('portfolio-detail');
+                window.scrollTo(0, 0);
+              }}
+              onViewAll={() => {
+                setBlogView('portfolio-list');
+                window.scrollTo(0, 0);
+              }}
             />
           )}
 
-          {/* 7. Pricing */}
+          {/* 6. Pricing */}
           {isSectionVisible('sec-pricing') && (
             <Pricing
               onSelectPlan={(planName) => handleScrollToContactWithService(planName)}
             />
           )}
 
-          {/* 8. Testimonials */}
+          {/* 7. Testimonials */}
           {isSectionVisible('sec-testimonials') && <Testimonials />}
 
-          {/* 9. FAQ (Hidden by user request) */}
-
-          {/* 10. Contact Us */}
+          {/* 8. Contact Us */}
           {isSectionVisible('sec-contact') && (
             <ContactUs
               preselectedService={preselectedServiceTitle}
@@ -420,12 +456,7 @@ export default function App() {
         onRequestQuote={(title) => handleScrollToContactWithService(title)}
       />
 
-      <PortfolioModal
-        siteConfig={siteConfig}
-        item={selectedPortfolio}
-        onClose={() => setSelectedPortfolio(null)}
-        onRequestSimilar={(cat) => handleScrollToContactWithService(`${cat} Project`)}
-      />
+      
 
       <QuickQuoteModal
         siteConfig={siteConfig}

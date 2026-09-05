@@ -78,14 +78,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote, currentView = 'main
           'justify-between'
         } gap-4`}>
           {/* Logo Brand - Perfectly Aligned */}
-          <a
-            href="#"
+          <div
             onClick={handleHomeClick}
-            className="flex items-center shrink-0 focus:outline-none rounded-xl transition-opacity hover:opacity-95"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleHomeClick(e as any); } }}
+            className="flex items-center shrink-0 focus:outline-none rounded-xl transition-opacity hover:opacity-95 cursor-pointer"
             aria-label="Homepage"
           >
             <Logo variant="light" size="md" showTagline={true} config={siteConfig?.logo} />
-          </a>
+          </div>
 
           {/* Desktop Nav Links - Centered Floating Pill */}
           <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5 bg-slate-50/90 p-1.5 rounded-2xl border border-sky-100/80 shadow-2xs">

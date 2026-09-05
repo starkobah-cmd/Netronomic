@@ -53,7 +53,7 @@ export const DEFAULT_MEDIA_ITEMS: MediaItem[] = [
   },
   {
     id: 'media-5',
-    title: 'Mobile App UX Engineering',
+    title: 'Web UX Engineering',
     url: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
     type: 'blog',
     sizeFormatted: '440 KB',

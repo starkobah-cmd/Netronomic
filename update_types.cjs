@@ -1,10 +1,21 @@
 const fs = require('fs');
 let content = fs.readFileSync('src/types.ts', 'utf8');
 
+const certInterface = `
+export interface CertificateItem {
+  id: string;
+  title: string;
+  issuer: string;
+  date: string;
+  frontImage: string;
+  backImage: string;
+  description: string;
+}
+`;
+
 content = content.replace(
-  "  stats?: string;\n  link?: string;\n}",
-  "  stats?: string;\n  link?: string;\n  videoUrl?: string;\n}"
+  "export interface PortfolioItem {",
+  certInterface + "\nexport interface PortfolioItem {"
 );
 
-fs.writeFileSync('src/types.ts', content, 'utf8');
-console.log('types updated');
+fs.writeFileSync('src/types.ts', content);

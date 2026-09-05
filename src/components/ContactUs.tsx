@@ -365,7 +365,7 @@ export const ContactUs: React.FC<ContactUsProps> = ({ preselectedService, siteCo
                     <option value="< $300">Under $300 (Micro Task)</option>
                     <option value="$300 - $500">$300 - $500 (Basic Package)</option>
                     <option value="$500 - $1,000">$500 - $1,000 (Standard Growth)</option>
-                    <option value="$1,000 - $3,000">$1,000 - $3,000 (Full Web/App Suite)</option>
+                    <option value="$1,000 - $3,000">$1,000 - $3,000 (Full Web Suite)</option>
                     <option value="$3,000+">$3,000+ (Enterprise Retainer)</option>
                   </select>
                 </div>

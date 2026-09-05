@@ -429,8 +429,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setEditingPortfolio({
       id: `port-${Date.now()}`,
       title: '',
-      category: 'websites',
-      categoryLabel: 'Websites',
+      category: 'Website Design & Development',
+      featured: false,
       image: '',
       description: '',
       tags: [],
@@ -1476,13 +1476,23 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         </div>
 
                         <div>
-                          <label className="block text-xs font-bold text-slate-300 mb-1">Project Description</label>
+                          <label className="block text-xs font-bold text-slate-300 mb-1">Short Description (Card)</label>
                           <textarea
-                            rows={5}
+                            rows={3}
                             value={editingPortfolio.description || ''}
                             onChange={(e) => setEditingPortfolio({ ...editingPortfolio, description: e.target.value })}
                             className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
-                            placeholder="Describe the project..."
+                            placeholder="Brief summary for the portfolio card..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold text-slate-300 mb-1">Detailed Description (Detail Page)</label>
+                          <textarea
+                            rows={5}
+                            value={editingPortfolio.detailedDescription || ''}
+                            onChange={(e) => setEditingPortfolio({ ...editingPortfolio, detailedDescription: e.target.value })}
+                            className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
+                            placeholder="Full case study details..."
                           />
                         </div>
 
@@ -1495,6 +1505,28 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
                             placeholder="React, Node.js, UI/UX"
                           />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-xs font-bold text-slate-300 mb-1">Technologies (Comma separated)</label>
+                            <input
+                              type="text"
+                              value={(editingPortfolio.technologies || []).join(', ')}
+                              onChange={(e) => setEditingPortfolio({ ...editingPortfolio, technologies: e.target.value.split(',').map(t => t.trim()).filter(Boolean) })}
+                              className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
+                              placeholder="Figma, Tailwind, React"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-bold text-slate-300 mb-1">Date/Year</label>
+                            <input
+                              type="text"
+                              value={editingPortfolio.date || ''}
+                              onChange={(e) => setEditingPortfolio({ ...editingPortfolio, date: e.target.value })}
+                              className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
+                              placeholder="e.g. 2024"
+                            />
+                          </div>
                         </div>
                       </div>
 
@@ -2655,7 +2687,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           type="text"
                           value={editingPost.secondaryKeywords || ''}
                           onChange={(e) => setEditingPost({ ...editingPost, secondaryKeywords: e.target.value })}
-                          placeholder="e.g. App Development, SEO"
+                          placeholder="e.g. Web Development, SEO"
                           className="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500"
                         />
                       </div>

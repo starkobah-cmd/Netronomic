@@ -72,7 +72,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService, onRequestQu
         <div className="flex flex-wrap items-center justify-center gap-2 mt-8 mb-12">
           {[
             { id: 'all', label: 'All 9 Services' },
-            { id: 'development', label: 'Web & App Dev' },
+            { id: 'development', label: 'Web Development' },
             { id: 'design', label: 'Logo & Graphic Design' },
             { id: 'editing', label: 'Reel Video Editing' },
             { id: 'marketing', label: 'SEO, Backlinks & Content' },

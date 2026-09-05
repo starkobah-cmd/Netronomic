@@ -11,7 +11,7 @@ interface HeroProps {
 }
 
 const DEFAULT_PHRASES = [
-  'Web & App Build',
+  'Web Build',
   'Logo Design',
   'Viral Video Reels',
   'Google SEO',
@@ -26,7 +26,7 @@ const TypewriterText: React.FC<{ phrases?: string[] }> = ({ phrases = DEFAULT_PH
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const currentPhrase = activePhrases[phraseIndex % activePhrases.length] || 'Web & App Build';
+    const currentPhrase = activePhrases[phraseIndex % activePhrases.length] || 'Web Build';
     let timer: NodeJS.Timeout;
 
     if (!isDeleting && charIndex < currentPhrase.length) {
@@ -49,7 +49,7 @@ const TypewriterText: React.FC<{ phrases?: string[] }> = ({ phrases = DEFAULT_PH
     return () => clearTimeout(timer);
   }, [charIndex, isDeleting, phraseIndex, activePhrases]);
 
-  const currentPhrase = activePhrases[phraseIndex % activePhrases.length] || 'Web & App Build';
+  const currentPhrase = activePhrases[phraseIndex % activePhrases.length] || 'Web Build';
   const currentText = currentPhrase.substring(0, charIndex);
 
   return (
@@ -213,7 +213,7 @@ export const Hero: React.FC<HeroProps> = ({ onGetStarted, onExploreServices, sit
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" /> Active
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold relative z-10">Website & Mobile App Suite</h3>
+                  <h3 className="text-xl font-bold relative z-10">Website Suite</h3>
                   <p className="text-sky-100 text-xs sm:text-sm leading-relaxed relative z-10">
                     Custom responsive development, high-speed cloud infrastructure, & SEO backlinks built under one roof.
                   </p>
@@ -235,7 +235,7 @@ export const Hero: React.FC<HeroProps> = ({ onGetStarted, onExploreServices, sit
                   <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Top Request Categories</div>
                   <div className="grid grid-cols-2 gap-2">
                     {[
-                      'Website & App Dev',
+                      'Website Development',
                       'Logo & Poster Design',
                       'Info Reel Editing',
                       'SEO & Backlinks'

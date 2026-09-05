@@ -136,7 +136,7 @@ export const DEFAULT_SITE_PAGES: SitePageConfig[] = [
     title: 'Home Page',
     slug: '/',
     status: 'published',
-    metaTitle: 'Netronomic Web Agency — High-Converting Web, App & SEO',
+    metaTitle: 'Netronomic Web Agency — High-Converting Web & SEO',
     metaDescription: 'We engineer high-converting Websites, Mobile Apps, Logos, Video Reels, SEO rankings, and Profile Backlinks for growing businesses.',
     focusKeyword: 'Web Agency',
     secondaryKeywords: 'Mobile Apps, SEO Backlinks, Logo Design, Video Reels',
@@ -163,7 +163,7 @@ export const DEFAULT_SITE_PAGES: SitePageConfig[] = [
     metaTitle: 'Our Digital Services — Websites, Apps, Branding & SEO',
     metaDescription: 'Explore our full suite of web design, mobile development, logo creation, video editing, and SEO backlink packages.',
     focusKeyword: 'Digital Services',
-    secondaryKeywords: 'Web design packages, App development, SEO backlinks',
+    secondaryKeywords: 'Web design packages, SEO backlinks',
     noIndex: false,
     sections: DEFAULT_PAGE_SECTIONS.filter(s => ['sec-services', 'sec-pricing', 'sec-process'].includes(s.id)),
   },
@@ -256,7 +256,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   hero: {
     titlePrefix: 'Accelerate Your Brand with',
     typingPhrases: [
-      'Web & App Build',
+      'Web Build',
       'Logo Design',
       'Viral Video Reels',
       'Google SEO',

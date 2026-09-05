@@ -65,7 +65,6 @@ const packages: PackagePlan[] = [
     ],
     notIncluded: [
       'Information Reel Editing',
-      'Mobile App Development',
       'Social Media Backlinks Campaign'
     ]
   },
@@ -99,7 +98,7 @@ const packages: PackagePlan[] = [
     name: 'Premium',
     badge: '👑 Luxury Enterprise',
     badgeType: 'luxury',
-    tagline: 'All-inclusive agency powerhouse with web/app dev, viral media & high-PR SEO.',
+    tagline: 'All-inclusive agency powerhouse with web dev, viral media & high-PR SEO.',
     priceStartingOneTime: '$1,499',
     priceStartingMonthly: '$999',
     customQuoteAvailable: true,
@@ -108,7 +107,6 @@ const packages: PackagePlan[] = [
     borderColor: 'border-amber-500/40 hover:border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.15)]',
     features: [
       'Full Custom Web App & E-Commerce Portal',
-      'Cross-Platform App Development (iOS/Android)',
       'Unlimited Logo Revisions + Complete Branding Kit',
       '10 Premium Posters & Promotional Graphics',
       '8 Viral Information Reels / Video Edits',
@@ -158,13 +156,7 @@ const comparisonData: ComparisonRow[] = [
     standard: '3 Reels with Captions',
     premium: '8 Viral Video Reels'
   },
-  {
-    serviceName: 'App Development',
-    icon: Smartphone,
-    basic: false,
-    standard: 'UI Wireframe & Spec',
-    premium: 'Native iOS & Android App'
-  },
+
   {
     serviceName: 'Blog Writing',
     icon: FileText,
@@ -417,93 +409,6 @@ export const Pricing: React.FC<PricingProps> = ({ onSelectPlan }) => {
             );
           })}
         </div>
-
-        {/* COMPARISON TABLE SECTION */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-20 mb-20"
-        >
-          <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Package Capability <span className="text-sky-400">Comparison Matrix</span>
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-400">
-              Detailed breakdown of services included across Basic, Standard, and Premium tiers.
-            </p>
-          </div>
-
-          <div className="bg-[#0B1120]/80 border border-slate-800/90 rounded-3xl backdrop-blur-xl overflow-x-auto shadow-2xl relative">
-            <table className="w-full text-left border-collapse min-w-[700px]">
-              <thead>
-                <tr className="border-b border-slate-800/90 bg-slate-900/60 text-xs sm:text-sm uppercase tracking-wider text-slate-300">
-                  <th className="py-5 px-6 font-bold text-white w-2/5">Service Included</th>
-                  <th className="py-5 px-6 font-bold text-slate-300 text-center w-1/5">Basic</th>
-                  <th className="py-5 px-6 font-bold text-sky-400 text-center w-1/5 bg-sky-950/30 border-x border-sky-500/20">
-                    Standard <span className="block text-[10px] text-sky-300 font-normal">Most Popular</span>
-                  </th>
-                  <th className="py-5 px-6 font-bold text-amber-400 text-center w-1/5">Premium</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60 text-xs sm:text-sm">
-                {comparisonData.map((row, idx) => {
-                  const RowIcon = row.icon;
-                  return (
-                    <tr key={idx} className="hover:bg-slate-900/40 transition-colors">
-                      <td className="py-4 px-6 font-medium text-white flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-sky-500/10 text-sky-400 shrink-0 border border-sky-500/20">
-                          <RowIcon className="w-4 h-4" />
-                        </div>
-                        <span>{row.serviceName}</span>
-                      </td>
-
-                      {/* Basic Column */}
-                      <td className="py-4 px-6 text-center text-slate-300">
-                        {typeof row.basic === 'boolean' ? (
-                          row.basic ? (
-                            <Check className="w-5 h-5 text-sky-400 mx-auto" />
-                          ) : (
-                            <X className="w-5 h-5 text-slate-600 mx-auto" />
-                          )
-                        ) : (
-                          <span className="font-semibold text-slate-200">{row.basic}</span>
-                        )}
-                      </td>
-
-                      {/* Standard Column (Highlighted) */}
-                      <td className="py-4 px-6 text-center text-sky-200 bg-sky-950/20 border-x border-sky-500/20 font-semibold">
-                        {typeof row.standard === 'boolean' ? (
-                          row.standard ? (
-                            <Check className="w-5 h-5 text-sky-400 mx-auto stroke-[3]" />
-                          ) : (
-                            <X className="w-5 h-5 text-slate-600 mx-auto" />
-                          )
-                        ) : (
-                          <span className="font-semibold text-sky-300">{row.standard}</span>
-                        )}
-                      </td>
-
-                      {/* Premium Column */}
-                      <td className="py-4 px-6 text-center text-amber-200 font-semibold">
-                        {typeof row.premium === 'boolean' ? (
-                          row.premium ? (
-                            <Check className="w-5 h-5 text-amber-400 mx-auto stroke-[3]" />
-                          ) : (
-                            <X className="w-5 h-5 text-slate-600 mx-auto" />
-                          )
-                        ) : (
-                          <span className="font-semibold text-amber-300">{row.premium}</span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
 
         {/* BELOW CARDS: NEED A CUSTOM SOLUTION CTA */}
         <motion.div

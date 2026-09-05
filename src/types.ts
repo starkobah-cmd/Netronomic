@@ -29,18 +29,24 @@ export interface WhyChooseItem {
 
 export type PortfolioCategory = string;
 
+
 export interface PortfolioItem {
   id: string;
   title: string;
   category: PortfolioCategory;
-  categoryLabel: string;
+  categoryLabel?: string;
   image: string;
   description: string;
+  detailedDescription?: string;
+  images?: string[];
   tags: string[];
-  client: string;
+  technologies?: string[];
+  client?: string;
   stats?: string;
   link?: string;
   videoUrl?: string;
+  date?: string;
+  featured?: boolean;
 }
 
 export interface PricingPlan {
@@ -118,5 +124,5 @@ export interface BlogPost {
   comments: BlogComment[];
 }
 
-export type BlogViewMode = 'main' | 'blog-list' | 'single-blog' | 'blog-admin' | 'site-admin';
+export type BlogViewMode = 'main' | 'blog-list' | 'single-blog' | 'blog-admin' | 'site-admin' | 'portfolio-list' | 'portfolio-detail';
 
